@@ -14,7 +14,6 @@
         <link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen" />
         <link href="css/sequence-looptheme.css" rel="stylesheet" media="all" />
         <link href="css/style.css" rel="stylesheet">
-        <!--[if lt IE 9]><script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script><script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script><![endif]-->
     </head>
 
     <body id="home">
@@ -24,12 +23,32 @@
                     <div class="row">
                         <div class="col-md-2 col-sm-2">
                             <div class="logo">
-                                <a href="index.htm"><img src="images/logo.png" alt="FlatShop"></a>
+                                <a href="index.htm">
+                                    <img src="images/logo.png" alt="FlatShop"></a>
                             </div>
                         </div>
                         <div class="col-md-10 col-sm-10">
                             <div class="header_top">
-
+                                <div class="row">
+                                    <div class="col-md-3">
+                                    </div>
+                                    <div class="col-md-6">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <ul class="usermenu">
+                                            <li>
+                                                <a href="checkout.htm" class="log">
+                          Login
+                        </a>
+                                            </li>
+                                            <li>
+                                                <a href="checkout2.htm" class="reg">
+                          Register
+                        </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                             <div class="clearfix"></div>
                             <div class="header_bottom">
@@ -686,34 +705,12 @@
                                     <a href="#"><img src="images/logo.png" alt=""></a>
                                 </div>
                             </div>
-                            <div class="col-md-3 col-sm-6">
+                            <div class="col-md-9">
                                 <h4 class="title">
                                     Contact <strong>Info</strong>
                                 </h4>
                                 <p>No. 08, Nguyen Trai, Hanoi , Vietnam</p>
-                                <p>Call Us : (084) 1900 1008</p>
                                 <p>Email : michael@leebros.us</p>
-                            </div>
-                            <div class="col-md-3 col-sm-6">
-                                <h4 class="title">
-                                    Customer<strong> Support</strong>
-                                </h4>
-                                <ul class="support">
-                                    <li><a href="#">FAQ</a></li>
-                                    <li><a href="#">Payment Option</a></li>
-                                    <li><a href="#">Booking Tips</a></li>
-                                    <li><a href="#">Infomation</a></li>
-                                </ul>
-                            </div>
-                            <div class="col-md-3">
-                                <h4 class="title">
-                                    Get Our <strong>Newsletter </strong>
-                                </h4>
-                                <p>Lorem ipsum dolor ipsum dolor.</p>
-                                <form class="newsletter">
-                                    <input type="text" name="" placeholder="Type your email....">
-                                    <input type="submit" value="SignUp" class="button">
-                                </form>
                             </div>
                         </div>
                     </div>
