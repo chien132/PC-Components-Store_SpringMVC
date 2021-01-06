@@ -6,30 +6,32 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "Category")
 public class Category {
 	@Id
-	private int cate_id;
-	private String cate_name;
+	private int id;
+	private String name;
 	
 	@OneToMany(mappedBy = "category",fetch = FetchType.EAGER)
 	private Collection<Product> products;
 
-	public int getCate_id() {
-		return cate_id;
+	public int getId() {
+		return id;
 	}
 
-	public void setCate_id(int cate_id) {
-		this.cate_id = cate_id;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public String getCate_name() {
-		return cate_name;
+	public String getName() {
+		return name;
 	}
 
-	public void setCate_name(String cate_name) {
-		this.cate_name = cate_name;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Collection<Product> getProducts() {
@@ -39,7 +41,7 @@ public class Category {
 	public void setProducts(Collection<Product> products) {
 		this.products = products;
 	}
-	
-	
 
+	
+	
 }

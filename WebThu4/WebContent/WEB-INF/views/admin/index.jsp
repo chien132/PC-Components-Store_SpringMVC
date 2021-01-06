@@ -205,7 +205,7 @@
                                                 <c:forEach var="p" items="${products}">
                                                     <tr>
                                                         <td>${p.id}</td>
-                                                        <td>${p.category.cate_name}</td>
+                                                        <td>${p.category.name}</td>
                                                         <td>${p.name}</td>
                                                         <td>${p.des}</td>
                                                         <td>${p.price}</td>

@@ -266,7 +266,7 @@
 				<div class="clearfix"></div>
 				<div class="featured-products">
 					<h3 class="title">
-						<strong>Featured </strong> Products
+						<strong>Featured </strong> Products ${message}
 					</h3>
 					<div class="control">
 						<a id="prev_featured" class="prev" href="#">&lt;</a><a
@@ -279,8 +279,8 @@
 									<div class="col-md-3 col-sm-6">
 										<div class="products">
 											<div class="thumbnail">
-												<a href="details.htm"><img
-													src="${p.image}" style="max-height: 100%  "></a>
+												<a href="details.htm"><img src="${p.image}"
+													style="max-height: 100%"></a>
 											</div>
 											<div class="productname">${p.name}</div>
 											<h4 class="price">${p.price}</h4>
