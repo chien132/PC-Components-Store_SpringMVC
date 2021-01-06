@@ -6,17 +6,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 
 public class MyController {
-	@RequestMapping("admin")
-	public String admin() {
+	@RequestMapping("login")
+	public String login() {
 
-		return "admin";
+		return "login";
 	}
 	
-	@RequestMapping("/index")
-	public String index() {
 
-		return "index";
-	}
 
 	@RequestMapping("checkout")
 	public String checkout() {
@@ -48,16 +44,7 @@ public class MyController {
 		return "contact";
 	}
 
-	@RequestMapping("productgrid")
-	public String productgrid() {
 
-		return "productgrid";
-	}
 
-	@RequestMapping("productlist")
-	public String productlist() {
-
-		return "productlist";
-	}
 
 }

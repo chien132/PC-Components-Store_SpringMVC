@@ -1270,7 +1270,7 @@ ul.dropdown-menu>li>a:hover {
     float: left;
     position: relative;
     width: 100%;
-    margin: 45px 0 5px 0;
+    margin: 25px 0 5px 0;
     padding: 0;
     height: 230px;
     border: none;
@@ -1632,7 +1632,7 @@ ul.dropdown-menu>li>a:hover {
 
 .footer-info {
     position: relative;
-    padding: 0px ;
+    padding: 0px;
     color: #8f8f8f;
 }
 
