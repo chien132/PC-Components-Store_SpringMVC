@@ -8,7 +8,7 @@
 <link href="css/styles.css" rel="stylesheet" />
 </head>
 <body class="bg-primary">
-	<div style="background-image: url('images/loginbg.jpg');">
+	<div style="background-image: url('images/razerlogin.jpg');">
 		<div id="layoutAuthentication">
 			<div id="layoutAuthentication_content">
 				<main>

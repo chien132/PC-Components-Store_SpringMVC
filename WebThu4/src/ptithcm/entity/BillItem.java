@@ -1,6 +1,7 @@
 package ptithcm.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -10,7 +11,7 @@ import javax.persistence.Table;
 @Table(name = "BillItem")
 public class BillItem {
 
-	@Id
+	@Id @GeneratedValue
 	private int id;
 	private int amount;
 	

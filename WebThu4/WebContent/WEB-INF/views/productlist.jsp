@@ -37,12 +37,17 @@
                                 <div class="col-md-10 col-sm-10">
                                     <div class="header_top">
                                         <div class="row">
-                                            <div class="col-md-3"></div>
-                                            <div class="col-md-6"></div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-12">
                                                 <ul class="usermenu">
-                                                    <li><a href="login.htm" class="log"> Login </a></li>
-                                                    <li><a href="checkout2.htm" class="reg"> Register </a></li>
+                                                    <c:choose>
+                                                        <c:when test="${user==null}">
+                                                            <li><a href="login.htm" class="log"> Login </a></li>
+                                                            <li><a href="register.htm" class="reg"> Register </a></li>
+                                                        </c:when>
+                                                        <c:when test="${user!=null}">
+                                                            <li><a href="logout.htm" class="log"> Logout </a></li>
+                                                        </c:when>
+                                                    </c:choose>
                                                 </ul>
                                             </div>
                                         </div>
@@ -119,7 +124,7 @@
                                                             <li><a href="home3.htm"> home3 </a></li>
                                                             <li><a href="productlist.htm"> productlist </a></li>
                                                             <li><a href="productgrid.htm"> productgrid </a></li>
-                                                            <li><a href="details.htm"> Details </a></li>
+                                                            <li><a href="details/${p.id}.htm"> Details </a></li>
                                                             <li><a href="cart.htm"> Cart </a></li>
                                                             <li><a href="checkout.htm"> CheckOut </a></li>
                                                             <li><a href="checkout2.htm"> CheckOut2 </a></li>
@@ -400,94 +405,6 @@
                                 </div>
                             </div>
                             <div class="clearfix"></div>
-                            <div class="our-brand">
-                                <h3 class="title">
-                                    <strong> Our </strong> Brands
-                                </h3>
-                                <div class="control">
-                                    <a id="prev_brand" class="prev" href="#"> &lt; </a> <a id="next_brand" class="next" href="#"> &gt; </a>
-                                </div>
-                                <ul id="braldLogo">
-                                    <li>
-                                        <ul class="brand_item">
-                                            <li>
-                                                <a href="#">
-                                                    <div class="brand-logo">
-                                                        <img src="images/envato.png" alt="">
-                                                    </div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <div class="brand-logo">
-                                                        <img src="images/themeforest.png" alt="">
-                                                    </div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <div class="brand-logo">
-                                                        <img src="images/photodune.png" alt="">
-                                                    </div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <div class="brand-logo">
-                                                        <img src="images/activeden.png" alt="">
-                                                    </div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <div class="brand-logo">
-                                                        <img src="images/envato.png" alt="">
-                                                    </div>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <ul class="brand_item">
-                                            <li>
-                                                <a href="#">
-                                                    <div class="brand-logo">
-                                                        <img src="images/envato.png" alt="">
-                                                    </div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <div class="brand-logo">
-                                                        <img src="images/themeforest.png" alt="">
-                                                    </div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <div class="brand-logo">
-                                                        <img src="images/photodune.png" alt="">
-                                                    </div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <div class="brand-logo">
-                                                        <img src="images/activeden.png" alt="">
-                                                    </div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <div class="brand-logo">
-                                                        <img src="images/envato.png" alt="">
-                                                    </div>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
                         </div>
                     </div>
                     <div class="clearfix"></div>

@@ -12,9 +12,11 @@ import javax.transaction.Transactional;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -51,7 +53,7 @@ public class UserController {
 			if (list.get(0).isAdmin()) {
 				return "redirect:/admin/index.htm";
 			}
-			return "index";
+			return "redirect:/index.htm";
 		} else {
 
 			model.addAttribute("message", "Đăng nhập thất bại!");
@@ -61,47 +63,58 @@ public class UserController {
 
 	@RequestMapping("logout")
 	public String logout(ModelMap model, HttpSession session) {
-		model.addAttribute("message", "Logoff");
 		session.removeAttribute("user");
-		;
-		return "login";
+		return login(model);
 	}
 
 	@RequestMapping(value = "register", method = RequestMethod.GET)
 	public String register(ModelMap model) {
+		model.addAttribute("user", new User());
 		return "register";
 	}
 
 	@RequestMapping(value = "register", method = RequestMethod.POST)
-	public String register(ModelMap model, @RequestParam("username") String username,
-			@RequestParam("password") String password, @RequestParam("cpassword") String cpassword,
-			@RequestParam("email") String email) {
-		model.addAttribute("username", username);
-		model.addAttribute("password", password);
-		model.addAttribute("cpassword", cpassword);
-		model.addAttribute("email", email);
-		if (username.isEmpty()) {
-			model.addAttribute("message", "Vui lòng nhập Username");
-		} else if (password.isEmpty() || cpassword.isEmpty()) {
-			model.addAttribute("message", "Vui lòng nhập đầy đủ mật khẩu");
-		} else if (password.compareTo(cpassword) != 0) {
-			model.addAttribute("message", "Mật khẩu không trùng khớp");
-		} else if (!email.isEmpty()) {
+	public String register(ModelMap model, @ModelAttribute User user, BindingResult errors,HttpSession httpSession) {
+
+		if (user.getUsername().isEmpty()) {
+			errors.rejectValue("username", "user", "Please enter your username !");
+		}
+		if (user.getPassword().isEmpty()) {
+			errors.rejectValue("password", "user", "Please enter your password !");
+		}
+		if (!user.getEmail().isEmpty()) {
 			Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$",
 					Pattern.CASE_INSENSITIVE);
-			Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
+			Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(user.getEmail());
 			if (!matcher.find()) {
-				model.addAttribute("message", "Email không hợp lệ");
+				errors.rejectValue("email", "user", "Please enter a valid email !");
 			}
-		} else {
+		}
+		if (!errors.hasErrors()) {
 			Session session = factory.getCurrentSession();
-			String hql = String.format("from User where username='%s'", username);
+			String hql = String.format("from User where username='%s'", user.getUsername());
 			Query query = session.createQuery(hql);
 			List<User> list = query.list();
 			if (list.isEmpty()) {
-				model.addAttribute("message", "Available");
+				Session session2 = factory.openSession();
+				Transaction t = session2.beginTransaction();
+				user.setAdmin(false);
+				try {
+					session2.save(user);
+					t.commit();
+					model.addAttribute("message", "Thêm mới thành công !");
+					httpSession.setAttribute("user", user);
+					return "redirect:/index.htm";
+				} catch (Exception e) {
+					t.rollback();
+					model.addAttribute("message", "Thêm mới thất bại !" + e);
+					return "redirect:/register.htm";
+				} finally {
+					session2.close();
+				}
+				
 			} else {
-				model.addAttribute("message", "Not Available");
+				errors.rejectValue("username", "user", "This username is not available !");
 			}
 
 //			try {
@@ -119,7 +132,7 @@ public class UserController {
 //				model.addAttribute("message", "Lỗi lưu file !\n" + e);
 //			}
 		}
-		return register(model);
+		return "register";
 	}
 
 	@RequestMapping("checkout")

@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -13,7 +14,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Product")
 public class Product {
-	@Id
+	@Id @GeneratedValue
 	private int id;
 	private String name;
 	private float price;

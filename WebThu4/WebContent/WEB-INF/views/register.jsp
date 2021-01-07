@@ -9,24 +9,10 @@
 <title>Page Title - SB Admin</title>
 <link href="css/styles.css" rel="stylesheet" />
 
-<!-- <script>
-	function validateform() {
-		var name = document.myform.name.value;
-		var password = document.myform.password.value;
-
-		if (name == null || name == "") {
-			alert("Name can't be blank");
-			return false;
-		} else if (password.length < 6) {
-			alert("Password must be at least 6 characters long.");
-			return false;
-		}
-	}
-</script> -->
 </head>
 
 <body class="bg-primary">
-	<div style="background-image: url('images/loginbg.jpg');">
+	<div style="background-image: url('images/razerlogin.jpg');">
 		<div id="layoutAuthentication">
 			<div id="layoutAuthentication_content">
 				<main>
@@ -39,50 +25,40 @@
 											Account</h3>
 									</div>
 									<div class="card-body">
-										<form:form action="register.htm" method="post">
+										<form:form action="register.htm" modelAttribute="user" method="post">
 											<div class="form-row">
 												<div class="col-md-12">
 													<div class="form-group">
 														<label class="small mb-1">Username<b
-															style="color: red;">*</b></label> <input
-															class="form-control py-4" name="username" value="${username}" ="text"
+															style="color: red;">*</b></label> <form:input
+															class="form-control py-4" path="username"
+															value="${user.username}" type="text"
 															placeholder="Enter username" />
+															<i><form:errors style="color: red;font-size: 15px;" path="username" /></i>
 													</div>
 												</div>
-												<!-- 												<div class="col-md-6"> -->
-												<!-- 													<div class="form-group"> -->
-												<!-- 														<label class="small mb-1" for="inputLastName">Avatar</label> -->
-												<!-- 														<input type="file" style="padding: 10px;"> -->
-												<!-- 													</div> -->
-												<!-- 												</div> -->
 											</div>
-
 											<div class="form-row">
-												<div class="col-md-6">
+												<div class="col-md-12">
 													<div class="form-group">
 														<label class="small mb-1">Password<b
-															style="color: red;">*</b></label> <input
-															class="form-control py-4" name="password" value="${password}" type="password"
+															style="color: red;">*</b></label> <form:input
+															class="form-control py-4" path="password"
+															value="${user.password}" type="password"
 															placeholder="Enter password" />
-													</div>
-												</div>
-												<div class="col-md-6">
-													<div class="form-group">
-														<label class="small mb-1" for="inputConfirmPassword">Confirm
-															Password<b style="color: red;">*</b>
-														</label> <input class="form-control py-4" name="cpassword" value="${cpassword}"
-															type="password" placeholder="Confirm password" />
+															<form:errors style="color: red;font-size: 15px;" path="password" />
 													</div>
 												</div>
 											</div>
 											<div class="form-group">
 												<label class="small mb-1">Email <i
 													style="color: green;"> Optional</i>
-												</label> <input class="form-control py-4" name="email"  value="${email}" type="email"
+												</label> <form:input class="form-control py-4" path="email"
+													value="${user.email}" type="email"
 													placeholder="Enter email address" />
+													<form:errors style="color: red;font-size: 15px;" path="email" />
 											</div>
 											<div class="form-group">
-												<label class="small mb-1"><i style="color: red;">${message}</i></label>
 											</div>
 											<div class="form-group mt-4 mb-0">
 												<button class="btn btn-primary btn-block">Create
