@@ -23,6 +23,10 @@ public class Product {
 	private int quantity;
 	
 	@ManyToOne
+	@JoinColumn(name = "brandid")
+	private Brand brand;
+	
+	@ManyToOne
 	@JoinColumn(name = "cate_id")
 	private Category category;
 	
@@ -99,6 +103,14 @@ public class Product {
 
 	public void setBillItems(Collection<BillItem> billItems) {
 		this.billItems = billItems;
+	}
+
+	public Brand getBrand() {
+		return brand;
+	}
+
+	public void setBrand(Brand brand) {
+		this.brand = brand;
 	}
 	
 	

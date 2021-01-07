@@ -1449,13 +1449,25 @@ ul.dropdown-menu>li>a:hover {
 }
 
 .brand-logo {
-    float: left;
-    border: 1px solid #dcdcdc;
+    float: initial;
+    border: 2px solid #ffffff;
     -webkit-border-radius: 10px;
-    border-radius: 10px;
+    border-radius: 20px;
     width: 100%;
     padding: 10px;
     text-align: center;
+}
+
+.brand_item .brand-logo h1 {
+    color: white;
+    text-align: center;
+    font-size: 35px;
+    margin: 5px 2px;
+    transition: 0.6s;
+}
+
+.brand_item .brand-logo h1:hover {
+    color: red;
 }
 
 #braldLogo .brand_item li {

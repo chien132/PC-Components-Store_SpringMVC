@@ -8,7 +8,7 @@
             <meta name="description" content="">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link rel="shortcut icon" href="images/favicon.png">
-            <title>Welcome to FlatShop</title>
+            <title>XGear | PC & Laptop Gaming</title>
             <link href="css/bootstrap.css" rel="stylesheet">
             <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,700,500italic,100italic,100' rel='stylesheet' type='text/css'>
             <link href="css/font-awesome.min.css" rel="stylesheet">
@@ -23,7 +23,7 @@
                         <div class="row">
                             <div class="col-md-2 col-sm-2">
                                 <div class="logo">
-                                    <a href="index.htm"> <img src="images/logo.png" alt="FlatShop">
+                                    <a href="index.htm"> <img src="images/logo.png" alt="XGear">
                                     </a>
                                 </div>
                             </div>
@@ -34,7 +34,7 @@
                                         <div class="col-md-6"></div>
                                         <div class="col-md-3">
                                             <ul class="usermenu">
-                                                <li><a href="checkout.htm" class="log"> Login </a></li>
+                                                <li><a href="login.htm" class="log"> Login </a></li>
                                                 <li><a href="checkout2.htm" class="reg"> Register </a></li>
                                             </ul>
                                         </div>
@@ -496,8 +496,8 @@
                                     <h4 class="title">
                                         Contact <strong>Info</strong>
                                     </h4>
-                                    <p>No. 08, Nguyen Trai, Hanoi , Vietnam</p>
-                                    <p>Email : michael@leebros.us</p>
+                                    <p>97 Man Thiện, Hiệp Phú, Q.9, TP.HCM</p>
+                                    <p>Email : daylaemailne@xgear.com</p>
                                 </div>
                             </div>
                         </div>
