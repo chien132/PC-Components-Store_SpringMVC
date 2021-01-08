@@ -441,24 +441,88 @@ button:hover {
 
 /* HEADER STYLE */
 
-#home {
+#homeall {
     background: url(../images/razerbg.jpg) center top no-repeat;
     background-size: cover;
     -webkit-background-size: cover;
     background-attachment: fixed;
 }
 
-#home .header {
+#homelogin {
+    background: url(../images/razerlogin.jpg) center top no-repeat;
+    background-size: cover;
+    -webkit-background-size: cover;
+    background-attachment: fixed;
+}
+
+.header {
     background: url(../images/black_transparent50.png) left top repeat;
     position: fixed;
     z-index: 100;
     top: 0;
 }
 
-.header {
-    position: relative;
-    background: #333333;
+
+/* 
+#dropall .dropbtn {
+    background-color: #ffffff00;
+    color: rgb(255, 255, 255);
+    padding: 7px 20px;
+    font-size: 15px;
+    border: 2px solid #00000000;
+    border-radius: 10px;
+    transition: 0.5s;
+    text-transform: uppercase;
 }
+
+#dropall .dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+#dropall .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 120px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+#dropall .dropdown-content a {
+    color: black;
+    padding: 7px 20px;
+    text-decoration: none;
+    display: block;
+    transition: 0.2s;
+}
+
+#dropall .dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+#dropall .dropdown:hover .dropdown-content {
+    display: block;
+}
+
+#dropall .dropdown:hover .dropbtn {
+    border: 2px solid rgb(255, 0, 157);
+    color: rgb(255, 0, 157);
+} */
+
+
+/* #home .header {
+    background: url(../images/black_transparent50.png) left top repeat;
+    position: fixed;
+    z-index: 100;
+    top: 0;
+} */
+
+
+/* .header {
+    position: fixed;
+    background: #333333;
+} */
 
 .logo {
     float: left;
@@ -1285,6 +1349,15 @@ ul.dropdown-menu>li>a:hover {
     color: #2f2f2f;
     margin-bottom: 10px;
     color: #333333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.daiqua {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .products .price {
@@ -2911,7 +2984,8 @@ option {
         padding: 5px 7.7px;
     }
     .option {
-        margin-top: 20px;
+        margin-top: 10px;
+        margin-right: 40px;
     }
     .navbar-collapse {
         padding-top: 5px;

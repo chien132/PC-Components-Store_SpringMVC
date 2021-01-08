@@ -17,7 +17,7 @@ public class Product {
 	@Id @GeneratedValue
 	private int id;
 	private String name;
-	private float price;
+	private int price;
 	private String des;
 	private String image ;
 	private float discount;
@@ -34,6 +34,16 @@ public class Product {
 	@OneToMany(mappedBy = "product",fetch = FetchType.EAGER)
 	private Collection<BillItem> billItems;
 
+	
+	
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -48,14 +58,6 @@ public class Product {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public float getPrice() {
-		return price;
-	}
-
-	public void setPrice(float price) {
-		this.price = price;
 	}
 
 	public String getDes() {

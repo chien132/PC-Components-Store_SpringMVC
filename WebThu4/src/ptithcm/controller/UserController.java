@@ -8,6 +8,11 @@ import java.util.regex.Pattern;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
+import javax.websocket.server.PathParam;
+
+import javax.mail.internet.MimeMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -32,7 +37,14 @@ public class UserController {
 	SessionFactory factory;
 
 	@Autowired
-	ServletContext context;
+	JavaMailSender mailer;
+
+	List<Object> getList(String hql) {
+		Session session = factory.getCurrentSession();
+		Query query = session.createQuery(hql);
+		List<Object> list = query.list();
+		return list;
+	}
 
 	@RequestMapping(value = "login", method = RequestMethod.GET)
 	public String login(ModelMap model) {
@@ -41,30 +53,44 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "login", method = RequestMethod.POST)
-	public String login(ModelMap model, @ModelAttribute("user") User user, HttpSession httpSession) {
-		Session session = factory.getCurrentSession();
-		String hql = String.format("from User where username='%s' and password='%s'", user.getUsername().trim(),
-				user.getPassword().trim());
-		System.out.println(hql);
-		Query query = session.createQuery(hql);
-		List<User> list = query.list();
-		if (!list.isEmpty()) {
-			httpSession.setAttribute("user", user);
-			if (list.get(0).isAdmin()) {
-				return "redirect:/admin/index.htm";
-			}
-			return "redirect:/index.htm";
-		} else {
-
-			model.addAttribute("message", "Đăng nhập thất bại!");
-			return "login";
+	public String login(ModelMap model, @ModelAttribute("user") User user, BindingResult errors,
+			HttpSession httpSession) {
+		if (user.getUsername().trim().isEmpty()) {
+			errors.rejectValue("username", "user", "Please enter your username !");
+		} else if (user.getUsername().trim().contains(" ")) {
+			errors.rejectValue("username", "user", "Username must not contain space !");
 		}
+		if (user.getPassword().trim().isEmpty()) {
+			errors.rejectValue("password", "user", "Please enter your password !");
+		} else if (user.getPassword().trim().contains(" ")) {
+			errors.rejectValue("password", "user", "Password must not contain space !");
+		}
+		if (!errors.hasErrors()) {
+			Session session = factory.getCurrentSession();
+			String hql = String.format("from User where username='%s' and password='%s'", user.getUsername().trim(),
+					user.getPassword().trim());
+			System.out.println(hql);
+			Query query = session.createQuery(hql);
+			List<User> list = query.list();
+			if (!list.isEmpty()) {
+				httpSession.setAttribute("user", list.get(0));
+				if (list.get(0).isAdmin()) {
+					return "redirect:/admin/index.htm";
+				}
+				return "redirect:/index.htm";
+			} else {
+
+				errors.rejectValue("username", "user", "Sai tên đăng nhập hoặc mật khẩu !");
+				return "login";
+			}
+		}
+		return "login";
 	}
 
 	@RequestMapping("logout")
 	public String logout(ModelMap model, HttpSession session) {
 		session.removeAttribute("user");
-		return login(model);
+		return "redirect:/index.htm";
 	}
 
 	@RequestMapping(value = "register", method = RequestMethod.GET)
@@ -74,13 +100,16 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "register", method = RequestMethod.POST)
-	public String register(ModelMap model, @ModelAttribute User user, BindingResult errors,HttpSession httpSession) {
-
-		if (user.getUsername().isEmpty()) {
+	public String register(ModelMap model, @ModelAttribute User user, BindingResult errors, HttpSession httpSession) {
+		if (user.getUsername().trim().isEmpty()) {
 			errors.rejectValue("username", "user", "Please enter your username !");
+		} else if (user.getUsername().trim().contains(" ")) {
+			errors.rejectValue("username", "user", "Username must not contain space !");
 		}
-		if (user.getPassword().isEmpty()) {
+		if (user.getPassword().trim().isEmpty()) {
 			errors.rejectValue("password", "user", "Please enter your password !");
+		} else if (user.getPassword().trim().contains(" ")) {
+			errors.rejectValue("password", "user", "Password must not contain space !");
 		}
 		if (!user.getEmail().isEmpty()) {
 			Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$",
@@ -112,27 +141,55 @@ public class UserController {
 				} finally {
 					session2.close();
 				}
-				
+
 			} else {
 				errors.rejectValue("username", "user", "This username is not available !");
 			}
 
-//			try {
-//				String photoPath = context.getRealPath("/files/" + photo.getOriginalFilename());
-//				photo.transferTo(new File(photoPath));
-//
-//				model.addAttribute("photo_name", photo.getOriginalFilename());
-//				model.addAttribute("cv_name", cv.getOriginalFilename());
-//				model.addAttribute("cv_type", cv.getContentType());
-//				model.addAttribute("cv_size", cv.getSize());
-//				return "job/apply";
-//
-//			} catch (Exception e) {
-//				// TODO: handle exception
-//				model.addAttribute("message", "Lỗi lưu file !\n" + e);
-//			}
 		}
 		return "register";
+	}
+
+	@RequestMapping("password")
+	public String password() {
+		return "password";
+	}
+
+	@RequestMapping(value = "password", params = "email", method = RequestMethod.GET)
+	public String forgotpassword(ModelMap model, @PathParam("email") String email) {
+		String hql = String.format("from User where email='%s'", email);
+		List<Object> list = getList(hql);
+		if (list.isEmpty()) {
+			model.addAttribute("message", "No account have this email");
+			return "password";
+		} else {
+			try {
+				String body = "This is your account infomation: \n";
+				for (int i = 0; i < list.size(); i++) {
+					User u = (User) list.get(0);
+
+					body += "Username: " + u.getUsername() + "\nEmail: " + u.getEmail() + "\nPassword: "
+							+ u.getPassword() + "\n\n";
+				}
+				System.out.println(body);
+				// String from = "XGear - PC & Laptop Gaming";
+				MimeMessage mail = mailer.createMimeMessage();
+
+				MimeMessageHelper helper = new MimeMessageHelper(mail);
+				// helper.setFrom(from, from);
+				helper.setTo(email);
+				// helper.setReplyTo(from,from);
+				helper.setSubject("Forgot Password");
+				helper.setText(body, true);
+
+				mailer.send(mail);
+			} catch (Exception e) {
+				model.addAttribute("message", e);
+			}
+			model.addAttribute("message", "We have sent the password to your email.");
+		}
+		return "password";
+
 	}
 
 	@RequestMapping("checkout")
