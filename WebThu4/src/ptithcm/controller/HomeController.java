@@ -24,6 +24,11 @@ public class HomeController {
 	@Autowired
 	SessionFactory factory;
 
+	@RequestMapping("")
+	public String welcome() {
+		return "redirect:/index.htm";
+	}
+
 	List<Object> getList(String hql) {
 		Session session = factory.getCurrentSession();
 		Query query = session.createQuery(hql);
@@ -52,31 +57,41 @@ public class HomeController {
 		return list;
 	}
 
-	@RequestMapping("productgrid")
+	@RequestMapping("productlist")
 	public String productgrid(ModelMap model) {
 		String hql = "FROM Product";
 		List<Object> list = getList(hql);
 		model.addAttribute("products", list);
-		return "productgrid";
+		model.addAttribute("type", "list");
+		return "product";
 
 	}
 
-	@RequestMapping("productlist")
+	@RequestMapping("productgrid")
 	public String productlist(ModelMap model) {
 		String hql = "FROM Product";
 		List<Object> list = getList(hql);
 		model.addAttribute("products", list);
-		return "productlist";
+		model.addAttribute("type", "grid");
+		return "product";
 
 	}
 
-	@RequestMapping("/index")
+	@RequestMapping("index")
 	public String index(ModelMap model) {
 		String hql = "FROM Product";
 		List<Object> list = getList(hql);
 		model.addAttribute("products", list);
 		return "index";
 	}
+
+//	@RequestMapping(value = "index", params = "search", method = RequestMethod.GET)
+//	public String searchproduct(@PathParam("search") String search, ModelMap model) {
+//		String hql = "From Product p where p.name like '%" + search + "%'";
+//		List<Object> list = getList(hql);
+//		model.addAttribute("products", list);
+//		return "index";
+//	}
 
 	@RequestMapping(value = "brand/{idcate}", method = RequestMethod.GET)
 	public String indexcate(ModelMap model, @PathVariable("idcate") String idcate) {
@@ -86,12 +101,39 @@ public class HomeController {
 		return "index";
 	}
 
-	@RequestMapping(value = "index", params = "search", method = RequestMethod.GET)
-	public String searchproduct(@PathParam("search") String search, ModelMap model) {
-		String hql = "From Product p where p.name like '%" + search + "%'";
-		List<Object> list = getList(hql);
-		model.addAttribute("products", list);
-		return "index";
+	@RequestMapping(value = "details/{pid}", method = RequestMethod.GET)
+	public String details(ModelMap model, @PathVariable("pid") int pid) {
+		Session session = factory.getCurrentSession();
+		/*
+		 * String hql = String.format("FROM Product p where p.id='%s'", pid);
+		 * List<Object> list=getList(hql);
+		 */
+		model.addAttribute("p", session.get(Product.class, pid));
+		return "details";
+	}
+
+	@RequestMapping("checkout")
+	public String checkout() {
+
+		return "checkout";
+	}
+
+	@RequestMapping("checkout2")
+	public String checkout2() {
+
+		return "checkout2";
+	}
+
+	@RequestMapping("cart")
+	public String cart() {
+
+		return "cart";
+	}
+
+	@RequestMapping("contact")
+	public String contact() {
+
+		return "contact";
 	}
 
 }

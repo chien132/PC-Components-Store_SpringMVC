@@ -11,7 +11,7 @@
 
 </head>
 
-<body class="bg-primary">
+<body class="homelogin">
 	<div style="background-image: url('images/razerlogin.jpg');">
 		<div id="layoutAuthentication">
 			<div id="layoutAuthentication_content">

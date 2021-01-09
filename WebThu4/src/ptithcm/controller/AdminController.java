@@ -1,7 +1,10 @@
 package ptithcm.controller;
 
+import java.io.File;
 import java.util.List;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.hibernate.Query;
@@ -16,6 +19,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ptithcm.entity.Product;
 
@@ -25,6 +30,8 @@ import ptithcm.entity.Product;
 public class AdminController {
 	@Autowired
 	SessionFactory factory;
+	@Autowired
+	ServletContext context;
 
 	List<Object> getList(String hql) {
 		Session session = factory.getCurrentSession();
@@ -70,8 +77,50 @@ public class AdminController {
 		return "admin/table";
 	}
 
+	@RequestMapping(value = "insert", method = RequestMethod.GET)
+	public String insert(ModelMap model) {
+		model.addAttribute("p", new Product());
+		model.addAttribute("action", "insert");
+		return "admin/product-form";
+	}
+
+	@RequestMapping(value = "insert", method = RequestMethod.POST)
+	public String insert(@ModelAttribute("p") Product p, @RequestParam("photo") MultipartFile photo,
+			RedirectAttributes re) {
+		Session session = factory.openSession();
+
+		if (photo.getOriginalFilename().isEmpty()) {
+			p.setImage("images/products/default.png");
+		} else if (!(photo.getContentType().contains("jpeg") || photo.getContentType().contains("png"))) {
+			re.addAttribute("message", "This file type is not supported !");
+		} else {
+			try {
+				String photoPath = context.getRealPath("/images/products/" + photo.getOriginalFilename());
+				photo.transferTo(new File(photoPath));
+				p.setImage("images/products/" + photo.getOriginalFilename());
+			} catch (Exception e) {
+				re.addFlashAttribute("message", "Save file error: " + e);
+				return "redirect:/admin/insert.htm";
+			}
+		}
+
+		Transaction t = session.beginTransaction();
+		try {
+			session.save(p);
+			t.commit();
+			re.addFlashAttribute("message", "Insert OK !");
+		} catch (Exception e) {
+			t.rollback();
+			re.addFlashAttribute("message", "Insert Failed !" + e);
+			return "redirect:/admin/insert.htm";
+		} finally {
+			session.close();
+		}
+		return "redirect:/admin/insert.htm";
+	}
+
 	@RequestMapping(value = "update/{pid}", method = RequestMethod.GET)
-	public String update(ModelMap model, @PathVariable("pid") int id) {
+	public String update(ModelMap model, @PathVariable("pid") int id, HttpSession httpSession) {
 		// String hql = String.format("FROM Product p where p.id='%s'", id);
 		// List<Object> plist = getList(hql);
 		// model.addAttribute("p", plist.get(0));
@@ -79,34 +128,62 @@ public class AdminController {
 		Session session = factory.getCurrentSession();
 		Product p = (Product) session.get(Product.class, id);
 		model.addAttribute("p", p);
-		return "admin/update";
+		model.addAttribute("action", "update");
+		httpSession.setAttribute("uptpid", id);
+		return "admin/product-form";
 	}
 
 	@RequestMapping(value = "update", method = RequestMethod.POST)
-	public String update(ModelMap model, @ModelAttribute("p") Product p) {
-		p.setImage("bla bla bla");
+	public String update(@ModelAttribute("p") Product p, HttpSession httpSession,
+			@RequestParam("photo") MultipartFile photo, RedirectAttributes re) {
+
+		Session session1 = factory.getCurrentSession();
+		Session session2 = factory.openSession();
+		p.setId((int) httpSession.getAttribute("uptpid"));
+
+		if (photo.getOriginalFilename().isEmpty()) {
+			Product temp = (Product) session1.get(Product.class, p.getId());
+			p.setImage(temp.getImage());
+		} else if (!(photo.getContentType().contains("jpeg") || photo.getContentType().contains("png"))) {
+			re.addAttribute("message", "This file type is not supported !");
+		} else {
+			try {
+				String photoPath = context.getRealPath("/images/products/" + photo.getOriginalFilename());
+				photo.transferTo(new File(photoPath));
+				p.setImage("images/products/" + photo.getOriginalFilename());
+			} catch (Exception e) {
+				re.addFlashAttribute("message", "Save file error: " + e);
+				return "redirect:/admin/update/" + p.getId() + ".htm";
+			}
+		}
+		Transaction t = session2.beginTransaction();
+		try {
+			session2.update(p);
+			t.commit();
+			re.addFlashAttribute("message", "Success !");
+		} catch (Exception e) {
+			t.rollback();
+			re.addFlashAttribute("message", "Update failed !" + e);
+		} finally {
+			session2.close();
+		}
+		return "redirect:/admin/update/" + p.getId() + ".htm";
+	}
+
+	@RequestMapping("delete/{pid}")
+	public String delete(ModelMap model, @PathVariable("pid") int id) {
 		Session session = factory.openSession();
 		Transaction t = session.beginTransaction();
 		try {
-			session.update(p);
+			session.delete(session.get(Product.class, id));
 			t.commit();
-			model.addAttribute("message", "Update thành công !");
+			model.addAttribute("message", "ok");
 		} catch (Exception e) {
 			t.rollback();
-			model.addAttribute("message", "Update thất bại !" + e);
-			return "admin/update";
+			model.addAttribute("message", "fail");
 		} finally {
 			session.close();
 		}
-		System.out.println(p.getName());
-		return "admin/update";
-	}
-
-	@RequestMapping(value = "delete/{pid}", method = RequestMethod.GET)
-	public String delete(ModelMap model, @PathVariable("pid") String id) {
-		String hql = String.format("select p FROM Product p where p.id='%s'", id);
-		List<Object> list = getList(hql);
-		model.addAttribute("p", list.get(0));
-		return "admin/delete";
+		return "redirect:/admin/index.htm";
 	}
 }

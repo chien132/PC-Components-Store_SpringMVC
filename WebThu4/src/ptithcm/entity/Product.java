@@ -20,7 +20,7 @@ public class Product {
 	private int price;
 	private String des;
 	private String image ;
-	private float discount;
+	private int discount;
 	private int quantity;
 	
 	@ManyToOne
@@ -76,11 +76,11 @@ public class Product {
 		this.image = image;
 	}
 
-	public float getDiscount() {
+	public int getDiscount() {
 		return discount;
 	}
 
-	public void setDiscount(float discount) {
+	public void setDiscount(int discount) {
 		this.discount = discount;
 	}
 

@@ -119,26 +119,24 @@
 													onclick="location.href='checkout.htm'">CheckOut</button></li>
 										</ul></li>
 								</ul>
-								<ul class="usermenu">
-									<div class="row" style="margin-right: 40px;">
-										<c:choose>
-											<c:when test="${user==null}">
+								<ul class="usermenu row " style="margin-right: 40px;"">
+									<c:choose>
+										<c:when test="${user==null}">
 
-												<li><a href="register.htm" class="reg"> Register </a></li>
-												<li><a href="login.htm" class="log"> Login </a></li>
+											<li><a href="register.htm" class="reg"> Register </a></li>
+											<li><a href="login.htm" class="log"> Login </a></li>
 
-											</c:when>
-											<c:when test="${user!=null}">
+										</c:when>
+										<c:when test="${user!=null}">
 
-												<li>
-													<h6 style="color: cyan;">Logged in as ${user.username}
-													</h6>
-												</li>
-												<li><a href="logout.htm" class="log"> Logout </a></li>
+											<li>
+												<h6 style="color: cyan;">Logged in as ${user.username}
+												</h6>
+											</li>
+											<li><a href="logout.htm" class="log"> Logout </a></li>
 
-											</c:when>
-										</c:choose>
-									</div>
+										</c:when>
+									</c:choose>
 								</ul>
 							</div>
 						</div>
