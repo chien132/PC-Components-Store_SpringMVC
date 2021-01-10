@@ -6,7 +6,7 @@
 
 <head>
 <meta charset="utf-8" />
-<title>Product - ${action}</title>
+<title>User - ${action}</title>
 <script>
 	function readURL(input) {
 		if (input.files && input.files[0]) {
@@ -45,24 +45,24 @@
 							<div class="card shadow-lg border-0 rounded-lg mt-5">
 								<div class="card-header">
 									<h3 class="text-center font-weight-light my-4"
-										style="text-transform: capitalize;">${action}Product</h3>
+										style="text-transform: capitalize;">${action}User</h3>
 								</div>
 								<div class="card-body" style="min-height: 80vh;">
-									<form:form action="admin/product/${action}.htm"
-										modelAttribute="p" enctype="multipart/form-data" method="post">
+									<form:form action="admin/user/${action}.htm" modelAttribute="u"
+										enctype="multipart/form-data" method="post">
 										<div class="row">
-											<div class="col-lg-9">
+											<div class="col-lg-7">
 												<div class="form-row">
 													<div class="col-md-6">
 														<div class="form-group">
-															<label class="small mb-1"><h5>Name</h5></label>
-															<form:input type="text" path="name" class="form-control"
-																required="required" />
+															<label class="small mb-1"><h5>Full Name</h5></label>
+															<form:input type="text" path="fullname"
+																class="form-control" />
 														</div>
 													</div>
 													<div class="col-md-6">
 														<div class="form-group">
-															<label class="small mb-1"><h5>Image</h5> </label> <input
+															<label class="small mb-1"><h5>Avatar</h5> </label> <input
 																name="photo" type="file" onchange="readURL(this);"
 																class="form-control" /> <i style="color: green">leave
 																blank if you don't want to change</i>
@@ -70,51 +70,37 @@
 													</div>
 												</div>
 												<div class="form-row">
-													<div class="col-md-6">
+													<div class="col-md-4">
 														<div class="form-group">
-															<label class="small mb-1"><h5>Category</h5></label>
-															<form:select class="form-control" path="category.id"
-																items="${categories}" itemValue="id" itemLabel="name"></form:select>
+															<label class="small mb-1"><h5>Username</h5></label>
+															<form:input class="form-control" required="required"
+																path="username" />
 														</div>
 													</div>
-													<div class="col-md-6">
+													<div class="col-md-4">
 														<div class="form-group">
-															<label class="small mb-1"><h5>Brand</h5></label>
-															<form:select class="form-control" path="brand.id"
-																items="${brands}" itemValue="id" itemLabel="name"></form:select>
+															<label class="small mb-1"><h5>Password</h5></label>
+															<form:input class="form-control" required="required"
+																path="password" />
+														</div>
+													</div>
+													<div class="col-md-4">
+														<div class="form-group">
+															<label class="small mb-1"><h5 style="color: red">IS
+																	ADMIN</h5></label>
+															<div></div>
+															<form:checkbox selected="true" class="form-control"
+																style="max-width: 2vw;" path="admin" />
 														</div>
 													</div>
 												</div>
-												<div class="form-row">
-													<div class="col-md-4">
-														<div class="form-group">
-															<label class="small mb-1"><h5>Price</h5></label>
-															<form:input type="number" path="price"
-																required="required" class="form-control" />
-														</div>
-													</div>
-													<div class="col-md-4">
-														<div class="form-group">
-															<label class="small mb-1"><h5>Discount (%)</h5></label>
-															<form:input type="number" min="0" max="100" step="1"
-																path="discount" required="required" class="form-control" />
-														</div>
-													</div>
-													<div class="col-md-4">
-														<div class="form-group">
-															<label class="small mb-1"><h5>Quantity</h5></label>
-															<form:input path="quantity" type="text"
-																required="required" class="form-control" />
-														</div>
-													</div>
-												</div>
+
 												<div class="form-row">
 													<div class="col-md-12">
 														<div class="form-group">
-															<label class="small mb-1"><h5>Description</h5></label>
-															<form:textarea type="text" path="des" required="required"
-																class="form-control" />
-
+															<label class="small mb-1"><h5>Email</h5></label>
+															<form:input class="form-control" type="email"
+																path="email" />
 														</div>
 													</div>
 												</div>
@@ -123,14 +109,14 @@
 													<h5 style="color: red;">${message}</h5>
 													<button class="btn btn-primary btn-block" type="submit">Submit</button>
 													<button class="btn btn-primary btn-block"
-														onclick="location.href='admin/product/table.htm'"
+														onclick="location.href='admin/user/table.htm'"
 														type="button">Cancel</button>
 												</div>
 											</div>
 											<div class="col-lg-3">
 												<img id="thisimage"
 													style="max-width: -webkit-fill-available; max-height: 70vh;"
-													alt="" src="${p.image}">
+													alt="" src="${u.avatar}">
 											</div>
 										</div>
 									</form:form>

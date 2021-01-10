@@ -1,28 +1,16 @@
 package ptithcm.controller;
 
-import java.io.File;
 import java.util.List;
-
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
-
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import ptithcm.entity.Product;
 
 @Transactional
 @Controller
@@ -69,121 +57,4 @@ public class AdminController {
 		return "admin/index";
 	}
 
-	@RequestMapping("table")
-	public String table(ModelMap model) {
-		String hql = "FROM Product";
-		List<Object> list = getList(hql);
-		model.addAttribute("products", list);
-		return "admin/table";
-	}
-
-	@RequestMapping(value = "insert", method = RequestMethod.GET)
-	public String insert(ModelMap model) {
-		model.addAttribute("p", new Product());
-		model.addAttribute("action", "insert");
-		return "admin/product-form";
-	}
-
-	@RequestMapping(value = "insert", method = RequestMethod.POST)
-	public String insert(@ModelAttribute("p") Product p, @RequestParam("photo") MultipartFile photo,
-			RedirectAttributes re) {
-		Session session = factory.openSession();
-
-		if (photo.getOriginalFilename().isEmpty()) {
-			p.setImage("images/products/default.png");
-		} else if (!(photo.getContentType().contains("jpeg") || photo.getContentType().contains("png"))) {
-			re.addAttribute("message", "This file type is not supported !");
-		} else {
-			try {
-				String photoPath = context.getRealPath("/images/products/" + photo.getOriginalFilename());
-				photo.transferTo(new File(photoPath));
-				p.setImage("images/products/" + photo.getOriginalFilename());
-			} catch (Exception e) {
-				re.addFlashAttribute("message", "Save file error: " + e);
-				return "redirect:/admin/insert.htm";
-			}
-		}
-
-		Transaction t = session.beginTransaction();
-		try {
-			session.save(p);
-			t.commit();
-			re.addFlashAttribute("message", "Insert OK !");
-		} catch (Exception e) {
-			t.rollback();
-			re.addFlashAttribute("message", "Insert Failed !" + e);
-			return "redirect:/admin/insert.htm";
-		} finally {
-			session.close();
-		}
-		return "redirect:/admin/insert.htm";
-	}
-
-	@RequestMapping(value = "update/{pid}", method = RequestMethod.GET)
-	public String update(ModelMap model, @PathVariable("pid") int id, HttpSession httpSession) {
-		// String hql = String.format("FROM Product p where p.id='%s'", id);
-		// List<Object> plist = getList(hql);
-		// model.addAttribute("p", plist.get(0));
-
-		Session session = factory.getCurrentSession();
-		Product p = (Product) session.get(Product.class, id);
-		model.addAttribute("p", p);
-		model.addAttribute("action", "update");
-		httpSession.setAttribute("uptpid", id);
-		return "admin/product-form";
-	}
-
-	@RequestMapping(value = "update", method = RequestMethod.POST)
-	public String update(@ModelAttribute("p") Product p, HttpSession httpSession,
-			@RequestParam("photo") MultipartFile photo, RedirectAttributes re) {
-
-		Session session1 = factory.getCurrentSession();
-		Session session2 = factory.openSession();
-		p.setId((int) httpSession.getAttribute("uptpid"));
-
-		if (photo.getOriginalFilename().isEmpty()) {
-			Product temp = (Product) session1.get(Product.class, p.getId());
-			p.setImage(temp.getImage());
-		} else if (!(photo.getContentType().contains("jpeg") || photo.getContentType().contains("png"))) {
-			re.addAttribute("message", "This file type is not supported !");
-		} else {
-			try {
-				String photoPath = context.getRealPath("/images/products/" + photo.getOriginalFilename());
-				photo.transferTo(new File(photoPath));
-				p.setImage("images/products/" + photo.getOriginalFilename());
-			} catch (Exception e) {
-				re.addFlashAttribute("message", "Save file error: " + e);
-				return "redirect:/admin/update/" + p.getId() + ".htm";
-			}
-		}
-		Transaction t = session2.beginTransaction();
-		try {
-			session2.update(p);
-			t.commit();
-			re.addFlashAttribute("message", "Success !");
-		} catch (Exception e) {
-			t.rollback();
-			re.addFlashAttribute("message", "Update failed !" + e);
-		} finally {
-			session2.close();
-		}
-		return "redirect:/admin/update/" + p.getId() + ".htm";
-	}
-
-	@RequestMapping("delete/{pid}")
-	public String delete(ModelMap model, @PathVariable("pid") int id) {
-		Session session = factory.openSession();
-		Transaction t = session.beginTransaction();
-		try {
-			session.delete(session.get(Product.class, id));
-			t.commit();
-			model.addAttribute("message", "ok");
-		} catch (Exception e) {
-			t.rollback();
-			model.addAttribute("message", "fail");
-		} finally {
-			session.close();
-		}
-		return "redirect:/admin/index.htm";
-	}
 }

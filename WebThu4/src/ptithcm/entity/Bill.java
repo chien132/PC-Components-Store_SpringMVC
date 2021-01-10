@@ -3,6 +3,7 @@ package ptithcm.entity;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -19,12 +20,17 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name = "Bill")
 public class Bill {
-	@Id @GeneratedValue
+	@Id
+	@GeneratedValue
 	private int id;
+	@Column(name = "done")
 	private boolean status;
+	private boolean paid;
 
 	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
+//	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+
 	private Date buydate;
 
 	@ManyToOne
@@ -33,6 +39,30 @@ public class Bill {
 
 	@OneToMany(mappedBy = "bill", fetch = FetchType.EAGER)
 	private Collection<BillItem> billItems;
+
+	public int getcartqty() {
+		int size = 0;
+		for (BillItem i : billItems) {
+			size += i.getAmount();
+		}
+		return size;
+	}
+
+	public long getcartvalue() {
+		long value = 0;
+		for (BillItem i : billItems) {
+			value += i.getAmount() * i.getProduct().getPrice() * (100 - i.getProduct().getDiscount())/100;
+		}
+		return value;
+	}
+
+	public boolean isPaid() {
+		return paid;
+	}
+
+	public void setPaid(boolean paid) {
+		this.paid = paid;
+	}
 
 	public int getId() {
 		return id;
@@ -50,12 +80,12 @@ public class Bill {
 		this.status = status;
 	}
 
-	public Date getDate() {
+	public Date getBuydate() {
 		return buydate;
 	}
 
-	public void setDate(Date date) {
-		this.buydate = date;
+	public void setBuydate(Date buydate) {
+		this.buydate = buydate;
 	}
 
 	public User getUser() {
@@ -73,6 +103,5 @@ public class Bill {
 	public void setBillItems(Collection<BillItem> billItems) {
 		this.billItems = billItems;
 	}
-	
-	
+
 }

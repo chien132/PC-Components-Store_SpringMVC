@@ -9,7 +9,7 @@
                 <div class="wrapper">
 
                     <div class="clearfix"></div>
-                    <div class="container_fullwidth">
+                    <div class="container_fullwidth" style="min-height: 57vh;">
                         <div class="container">
                             <div class="clearfix"></div>
                             <div class="featured-products">
@@ -31,7 +31,7 @@
                                                         </div>
                                                         <div class="productname">${p.name}</div>
                                                         <h4 class="price">
-                                                            <f:formatNumber type="currency" currencySymbol="" maxFractionDigits="0" value="${p.price*(100-p.discount)}" /> đ
+                                                            <f:formatNumber type="currency" currencySymbol="" maxFractionDigits="0" value="${p.price*(100-p.discount)/100}" /> đ
 
                                                         </h4>
                                                         <!-- 											<div class="product-list-description "> -->
@@ -40,8 +40,10 @@
                                                             <!-- 												</span> -->
                                                             <!-- 											</div> -->
                                                             <div class="button_group">
-                                                                <button class="button add-cart" type="button">Add
-													To Cart</button>
+                                                                <form action="addtocart/${p.id}/1.htm?ret=index" method="post">
+                                                                    <button class="button add-cart" type="submit">Add
+														To Cart</button>
+                                                                </form><b style="color: green; font-size: 20px; font-weight: bold;">${p.quantity} in stock</b>
                                                             </div>
                                                     </div>
                                                 </div>

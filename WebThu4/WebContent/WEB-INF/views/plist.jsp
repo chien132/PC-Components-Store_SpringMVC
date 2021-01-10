@@ -24,7 +24,7 @@
                                     <div class="price">
                                         <span class="new_price"><f:formatNumber type="currency"
 									currencySymbol="" maxFractionDigits="0">
-                                                                 ${p.price*(100-p.discount)}</f:formatNumber>
+                                                                 ${p.price*(100-p.discount)/100}</f:formatNumber>
 								<sup> đ </sup> </span> <span class="old_price"> ${p.price} <sup>
 									đ </sup>
 							</span>

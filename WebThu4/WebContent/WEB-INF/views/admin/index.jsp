@@ -107,7 +107,6 @@
                                                 <th>Description</th>
                                                 <th>Price</th>
                                                 <th>Discount</th>
-                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
@@ -120,7 +119,6 @@
                                                 <th>Description</th>
                                                 <th>Price</th>
                                                 <th>Discount</th>
-                                                <th>Action</th>
                                             </tr>
                                         </tfoot>
                                         <tbody>
@@ -133,10 +131,10 @@
                                                     <td>${p.name}</td>
                                                     <td>${p.des}</td>
                                                     <td>${p.price}</td>
-                                                    <td>${p.discount}</td>
-                                                    <td><button class="btn btn-primary" onclick="location.href='admin/update/${p.id}.htm'" style="width: 45%; min-width: 55px;">Sửa</button>
-                                                        <div style="padding: 3px;"></div>
-                                                        <button class="btn btn-primary" onclick="location.href='admin/delete/${p.id}.htm'" style="width: 45%; min-width: 55px;">Xóa</button></td>
+                                                    <td>
+                                                        <f:formatNumber type="percent" value="${p.discount}" />
+                                                    </td>
+
                                                 </tr>
                                             </c:forEach>
                                         </tbody>

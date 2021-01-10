@@ -19,9 +19,20 @@ public class User {
 	private String password;
 	private String avatar;
 	private boolean admin;
+	private String fullname;
 
 	@OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
 	private Collection<Bill> bills;
+
+	
+	
+	public String getFullname() {
+		return fullname;
+	}
+
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
+	}
 
 	public int getId() {
 		return id;
