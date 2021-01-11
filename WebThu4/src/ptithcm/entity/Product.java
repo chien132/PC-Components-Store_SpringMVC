@@ -14,28 +14,31 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Product")
 public class Product {
-	@Id @GeneratedValue
+	@Id
+	@GeneratedValue
 	private int id;
 	private String name;
 	private int price;
 	private String des;
-	private String image ;
+	private String image;
 	private int discount;
 	private int quantity;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "brandid")
 	private Brand brand;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "cate_id")
 	private Category category;
-	
-	@OneToMany(mappedBy = "product",fetch = FetchType.EAGER)
+
+	@OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
 	private Collection<BillItem> billItems;
 
-	
-	
+	public long getrealprice() {
+		return price * (100 - discount) / 100;
+	}
+
 	public int getPrice() {
 		return price;
 	}
@@ -115,7 +118,5 @@ public class Product {
 	public void setBrand(Brand brand) {
 		this.brand = brand;
 	}
-	
-	
-	
+
 }

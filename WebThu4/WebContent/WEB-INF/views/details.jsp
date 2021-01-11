@@ -1,74 +1,93 @@
 <%@ page pageEncoding="utf-8"%>
-    <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
-        <%@ taglib uri="http://java.sun.com/jstl/fmt_rt" prefix="f"%>
+<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jstl/fmt_rt" prefix="f"%>
 
-            <!DOCTYPE html>
-            <html>
-            <jsp:include page="header.jsp"></jsp:include>
+<!DOCTYPE html>
+<html>
+<jsp:include page="header.jsp"></jsp:include>
 
-            <body id="homeall">
-                <div class="wrapper">
-                    <div class="clearfix"></div>
-                    <div class="container_fullwidth">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-9">
-                                    <div class="products-details">
-                                        <div class="preview_image">
-                                            <div class="offer">
-                                                -
-                                                <f:formatNumber type="percent" value="${p.discount/100}" />
-                                            </div>
-                                            <div class="preview-small">
-                                                <img style="max-height: 500px;" src="${p.image}">
-                                            </div>
-                                        </div>
-                                        <div class="products-description">
-                                            <h5 class="name">${p.name}</h5>
-                                            <p>
-                                                Availability: <span class=" light-red"> ${p.quantity} </span>
-                                            </p>
-                                            <p>${p.des}</p>
-                                            <hr class="border">
-                                            <div class="price">
-                                                Price : <span class="new_price"> <f:formatNumber
+<body id="homeall">
+	<div class="wrapper">
+		<div class="clearfix"></div>
+		<div class="container_fullwidth">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-9">
+						<div class="products-details">
+							<div class="preview_image">
+								<div class="offer">
+									-
+									<f:formatNumber type="percent" value="${p.discount/100}" />
+								</div>
+								<div class="preview-small">
+									<img style="max-height: 500px;" src="${p.image}">
+								</div>
+							</div>
+							<div class="products-description">
+								<h2 class="name">${p.name}</h2>
+								<c:choose>
+									<c:when test="${p.quantity>0}">
+										<h4 style="color: green; margin-top: 5vh;">Availability:
+											${p.quantity}</h4>
+									</c:when>
+									<c:when test="${p.quantity==0}">
+										<h4
+											style="color: red; margin-top: 5vh; text-decoration: line-through;">Out
+											of stock</h4>
+									</c:when>
+								</c:choose>
+
+								<hr class="border">
+								<div class="price">
+									Price : <span class="new_price"> <f:formatNumber
 											type="currency" currencySymbol="" maxFractionDigits="0"
 											value="${p.price*(100-p.discount)/100}" /> <sup> đ </sup>
-									</span> <span class="old_price"> ${p.price} <sup> đ </sup>
-									</span>
-                                            </div>
-                                            <hr class="border">
-                                            <div class="wided">
-                                                <div class="qty">
-                                                    Qty <input style="max-width: 90px;" type="number" />
-                                                </div>
-                                                <div class="button_group">
-                                                    <button class="button">Add To Cart</button>
+									</span> <span class="old_price"><f:formatNumber type="currency"
+											currencySymbol="" maxFractionDigits="0" value="${p.price}" />
+										<sup> đ </sup></span>
+								</div>
+								<hr class="border">
+								<div class="wided">
 
-                                                </div>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                            <hr class="border">
-                                            <img src="images/share.png" alt="" class="pull-right">
-                                        </div>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                    <div class="tab-box">
-                                        <div class="tab-content-wrap">
-                                            <div class="tab-content" id="Descraption">
-                                                <p>${p.des}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-                <div class="clearfix"></div>
-                <jsp:include page="footer.jsp"></jsp:include>
-            </body>
+									<div class="button_group">
+										<form action="adddetail/${p.id}.htm" method="post">
+											<div class="qty">
+												Quantity <input style="max-width: 90px;" type="number"
+													value="1" name="qty" id="qty" />
+											</div>
+											<button class="button" type="submit">Add To Cart</button>
+										</form>
 
-            </html>
+									</div>
+								</div>
+								<div class="clearfix"></div>
+								<hr class="border">
+								<img src="images/share.png" alt="" class="pull-right">
+							</div>
+						</div>
+						<div class="clearfix"></div>
+						<div class="tab-box">
+							<div class="tab-content-wrap">
+								<div class="tab-content" id="Descraption">
+
+									<h3>${p.des}</h3>
+
+								</div>
+
+
+
+							</div>
+
+						</div>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+	<div class="clearfix"></div>
+	<jsp:include page="footer.jsp"></jsp:include>
+</body>
+
+</html>

@@ -65,8 +65,8 @@
 															<label class="small mb-1"
 																style="text-transform: capitalize;"><h5>Buy
 																	date</h5></label>
-															<form:input type="date" patterm="MM/dd/yyyy"
-																path="buydate" class="form-control" required="required" />
+															<form:input type="date" path="buydate"
+																class="form-control"  />
 														</div>
 													</div>
 												</div>
@@ -121,7 +121,7 @@
 																onclick="location.href='admin/bill/edititem/${b.id}.htm'"
 																type="button">Update Bill Items</button>
 														</div>
-													
+
 													</c:when>
 												</c:choose>
 											</form:form>

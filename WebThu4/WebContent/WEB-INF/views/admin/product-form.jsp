@@ -103,7 +103,7 @@
 													<div class="col-md-4">
 														<div class="form-group">
 															<label class="small mb-1"><h5>Quantity</h5></label>
-															<form:input path="quantity" type="text"
+															<form:input path="quantity" type="number"
 																required="required" class="form-control" />
 														</div>
 													</div>
@@ -112,8 +112,8 @@
 													<div class="col-md-12">
 														<div class="form-group">
 															<label class="small mb-1"><h5>Description</h5></label>
-															<form:textarea type="text" path="des" required="required"
-																class="form-control" />
+															<form:textarea style="height: 20vh;" type="text"
+																path="des" required="required" class="form-control" />
 
 														</div>
 													</div>

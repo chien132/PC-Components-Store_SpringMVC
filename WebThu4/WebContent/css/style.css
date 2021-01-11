@@ -2104,8 +2104,8 @@ form.newsletter input[type="submit"]:hover {
 .sort-by,
 .limiter {
     float: left;
-    margin-left: 20px;
-    font-size: 13px;
+    margin-left: -5vw;
+    font-size: 15px;
 }
 
 .sort-by select,

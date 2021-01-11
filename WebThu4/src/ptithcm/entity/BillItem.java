@@ -23,6 +23,10 @@ public class BillItem {
 	@JoinColumn(name = "bill_id")
 	private Bill bill;
 
+	public long getvalue() {
+		return amount*product.getrealprice();
+	}
+	
 	public int getId() {
 		return id;
 	}

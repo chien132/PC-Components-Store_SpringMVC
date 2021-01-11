@@ -51,8 +51,9 @@ public class Bill {
 	public long getcartvalue() {
 		long value = 0;
 		for (BillItem i : billItems) {
-			value += i.getAmount() * i.getProduct().getPrice() * (100 - i.getProduct().getDiscount())/100;
+			value += i.getvalue();
 		}
+		System.out.println(value);
 		return value;
 	}
 

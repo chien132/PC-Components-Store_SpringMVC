@@ -83,7 +83,7 @@ public class ProductController {
 		Session session = factory.openSession();
 
 		if (photo.getOriginalFilename().isEmpty()) {
-			p.setImage("images/products/default.png");
+			p.setImage("images/products/default.jpg");
 		} else if (!(photo.getContentType().contains("jpeg") || photo.getContentType().contains("png"))) {
 			re.addFlashAttribute("message", "This file type is not supported !");
 		} else {

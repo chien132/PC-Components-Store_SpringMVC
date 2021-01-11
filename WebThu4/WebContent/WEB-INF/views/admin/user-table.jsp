@@ -72,11 +72,11 @@
 											<td>${u.admin}</td>
 											<td><button class="btn btn-primary"
 													onclick="location.href='admin/user/update/${u.id}.htm'"
-													style="width: 80%; min-width: 55px;">Sửa</button>
-												<div style="padding: 3px;"></div> <!-- 													<button class="btn btn-primary" -->
-												<%-- 														onclick="location.href='admin/user/delete/${u.id}.htm'" --%>
-												<!-- 														style="width: 45%; min-width: 55px;">Xóa</button> -->
-											</td>
+													style="width: 45%; min-width: 55px;">Sửa</button>
+												<div style="padding: 3px;"></div>
+												<button class="btn btn-primary"
+													onclick="location.href='admin/user/delete/${u.id}.htm'"
+													style="width: 45%; min-width: 55px;background-color: red;">Xóa</button></td>
 										</tr>
 									</c:forEach>
 								</tbody>
