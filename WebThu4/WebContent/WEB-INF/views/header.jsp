@@ -87,7 +87,9 @@
 										<form action="index.htm">
 											<input class="search-submit" type="submit" value=""><input
 												class="search-input" placeholder="Enter your search term..."
-												type="text" value="" name="search">
+												type="text" value="" name="search"> <input
+												type="hidden" value="grid" name="view" />
+											<input type="hidden" value="1" name="page" />
 										</form>
 									</li>
 									<li class="option-cart"><a href="cart.htm"
@@ -115,8 +117,10 @@
 																		value="${bi.product.price*bi.amount*(100-bi.product.discount)/100}" />
 																	đ
 																</p>
-																<a href="removeitem/${bi.id}/index.htm" class="remove"><img
-																	src="images/remove.png" alt="remove"></a>
+																<a
+																	href="removeitem/${bi.id}/${indetail==null?'index':'cart'}.htm"
+																	class="remove"><img src="images/remove.png"
+																	alt="remove"></a>
 															</div>
 														</div>
 													</li>
@@ -158,7 +162,7 @@
 								<button class="dropbtn mybtn">Category</button>
 								<div class="dropdown-content">
 									<c:forEach var="c" items="${categories}">
-										<a href="category/${c.id}.htm">${c.name}</a>
+										<a href="index.htm?cate=${c.id}&page=1&view=grid">${c.name}</a>
 									</c:forEach>
 								</div>
 							</div>
@@ -166,7 +170,7 @@
 								<button class="dropbtn mybtn">Brand</button>
 								<div class="dropdown-content">
 									<c:forEach var="b" items="${brands}">
-										<a href="brand/${b.id}.htm">${b.name}</a>
+										<a href="index.htm?brand=${b.id}&page=1&view=grid">${b.name}</a>
 									</c:forEach>
 								</div>
 							</div>

@@ -34,7 +34,7 @@ public class HomeController {
 
 	@RequestMapping("")
 	public String welcome() {
-		return "redirect:/index.htm";
+		return "redirect:/index.htm?page=1&view=grid";
 	}
 
 	List<Object> getList(String hql) {
@@ -97,25 +97,25 @@ public class HomeController {
 		return list;
 	}
 
-	@RequestMapping("productlist")
-	public String productgrid(ModelMap model) {
-		String hql = "FROM Product";
-		List<Object> list = getList(hql);
-		model.addAttribute("products", list);
-		model.addAttribute("type", "list");
-		return "product";
-
-	}
-
-	@RequestMapping("productgrid")
-	public String productlist(ModelMap model) {
-		String hql = "FROM Product";
-		List<Object> list = getList(hql);
-		model.addAttribute("products", list);
-		model.addAttribute("type", "grid");
-		return "product";
-
-	}
+//	@RequestMapping("productlist")
+//	public String productgrid(ModelMap model) {
+//		String hql = "FROM Product";
+//		List<Object> list = getList(hql);
+//		model.addAttribute("products", list);
+//		model.addAttribute("type", "list");
+//		return "product";
+//
+//	}
+//
+//	@RequestMapping("productgrid")
+//	public String productlist(ModelMap model) {
+//		String hql = "FROM Product";
+//		List<Object> list = getList(hql);
+//		model.addAttribute("products", list);
+//		model.addAttribute("type", "grid");
+//		return "product";
+//
+//	}
 
 	@RequestMapping("index")
 	public String index(ModelMap model, HttpSession httpSession) {
@@ -123,41 +123,67 @@ public class HomeController {
 //		List<Object> list = getList(hql);
 //		model.addAttribute("products", list);
 //		return "index";
-		return "redirect:/index.htm?page=1";
+		return "redirect:/index.htm?page=1&view=grid";
 	}
 
-	@RequestMapping(value = "index", params = "page")
-	public String indexpage(ModelMap model, @RequestParam("page") Integer page) {
-		List<Object> list = getList("From Product");
+	public void loadindex(ModelMap model, String query, Integer page, String view) {
+		List<Object> list = getList(query);
 		model.addAttribute("products", list.subList((page - 1) * 8, (page * 8 > list.size() ? list.size() : page * 8)));
 		model.addAttribute("page", page);
 		model.addAttribute("maxpage", Math.ceil(list.size() / 8.0));
-		model.addAttribute("where", 1);
+		model.addAttribute("view", view);
+		System.out.println(list.size());
+//		model.addAttribute("search", search);
+//		model.addAttribute("brand", brandid);
+//		model.addAttribute("cate", cateid);
+	}
+
+	@RequestMapping(value = "index", params = { "page", "view" })
+	public String indexpage(ModelMap model, @PathParam("view") String view, @PathParam("page") Integer page) {
+		String hql = "From Product";
+		loadindex(model, hql, page, view);
 		return "index";
 	}
 
-	@RequestMapping(value = "index", params = "search", method = RequestMethod.GET)
-	public String searchproduct(@PathParam("search") String search, ModelMap model) {
+	@RequestMapping(value = "index", params = { "search", "page", "view" }, method = RequestMethod.GET)
+	public String searchproduct(@PathParam("search") String search, @PathParam("page") Integer page,
+			@PathParam("view") String view, ModelMap model) {
 		String hql = "From Product p where p.name like '%" + search + "%'";
-		List<Object> list = getList(hql);
-		model.addAttribute("products", list);
+		loadindex(model, hql, page, view);
+		model.addAttribute("search", search);
 		return "index";
 	}
 
-	@RequestMapping(value = "brand/{id}", method = RequestMethod.GET)
-	public String indexbrand(ModelMap model, @PathVariable("id") String id) {
-		String hql = String.format("FROM Product p where p.brand.id=%s", id);
-		List<Object> list = getList(hql);
-		model.addAttribute("products", list);
+	@RequestMapping(value = "index", params = { "page", "view", "brand" }, method = RequestMethod.GET)
+	public String indexbrand(ModelMap model, @PathParam("brand") String brand, @PathParam("page") Integer page,
+			@PathParam("view") String view) {
+		String hql = String.format("FROM Product p where p.brand.id=%s", brand);
+		loadindex(model, hql, 1, view);
+		model.addAttribute("brand", brand);
 		return "index";
 	}
-	@RequestMapping(value = "category/{id}", method = RequestMethod.GET)
-	public String indexcate(ModelMap model, @PathVariable("id") String id) {
-		String hql = String.format("FROM Product p where p.category.id=%s", id);
-		List<Object> list = getList(hql);
-		model.addAttribute("products", list);
+
+	@RequestMapping(value = "index", params = { "page", "view", "cate" }, method = RequestMethod.GET)
+	public String indexcate(ModelMap model, @PathParam("cate") String cate, @PathParam("page") Integer page,
+			@PathParam("view") String view) {
+		String hql = String.format("FROM Product p where p.category.id=%s", cate);
+		loadindex(model, hql, 1, view);
+		model.addAttribute("cate", cate);
 		return "index";
 	}
+//	@RequestMapping(value = "brand/{id}", method = RequestMethod.GET)
+//	public String indexbrand(ModelMap model, @PathVariable("id") String id) {
+//		String hql = String.format("FROM Product p where p.brand.id=%s", id);
+//		loadindex(model, hql, 1, "grid");
+//		return "index";
+//	}
+//
+//	@RequestMapping(value = "category/{id}", method = RequestMethod.GET)
+//	public String indexcate(ModelMap model, @PathVariable("id") String id) {
+//		String hql = String.format("FROM Product p where p.category.id=%s", id);
+//		loadindex(model, hql, 1, "grid");
+//		return "index";
+//	}
 
 	@RequestMapping(value = "details/{pid}", method = RequestMethod.GET)
 	public String details(ModelMap model, @PathVariable("pid") int pid) {
@@ -166,6 +192,7 @@ public class HomeController {
 		 * String hql = String.format("FROM Product p where p.id='%s'", pid);
 		 * List<Object> list=getList(hql);
 		 */
+		model.addAttribute("indetail", 1);
 		model.addAttribute("p", session.get(Product.class, pid));
 		return "details";
 	}
@@ -245,8 +272,9 @@ public class HomeController {
 	public String deleteitem(@PathVariable("item") int iid, @PathVariable("ret") String ret) {
 		Session session = factory.openSession();
 		Transaction t = session.beginTransaction();
+		BillItem bi = (BillItem) session.get(BillItem.class, iid);
 		try {
-			session.delete(session.get(BillItem.class, iid));
+			session.delete(bi);
 			t.commit();
 		} catch (Exception e) {
 			System.out.println(e);
@@ -254,6 +282,8 @@ public class HomeController {
 		} finally {
 			session.close();
 		}
+		if (ret.equals("details"))
+			ret = "details/" + bi.getProduct().getId();
 		return "redirect:/" + ret + ".htm";
 	}
 
@@ -364,12 +394,12 @@ public class HomeController {
 	}
 
 	@RequestMapping("checkout/{id}")
-	public String checkout(ModelMap model, @PathVariable("id") int id,RedirectAttributes re) {
+	public String checkout(ModelMap model, @PathVariable("id") int id, RedirectAttributes re) {
 		Session session = factory.openSession();
 		Transaction t = session.beginTransaction();
 		Bill bill = (Bill) session.get(Bill.class, id);
-		if(bill.getBillItems().size()==0){
-			re.addFlashAttribute("message","Your cart is empty !");
+		if (bill.getBillItems().size() == 0) {
+			re.addFlashAttribute("message", "Your cart is empty !");
 			return "redirect:/cart.htm";
 		}
 		for (BillItem i : bill.getBillItems()) {

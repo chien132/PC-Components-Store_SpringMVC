@@ -45,6 +45,7 @@
 											<th>Buy Date</th>
 											<th>Paid</th>
 											<th>Status</th>
+											<th></th>
 											<th>Action</th>
 										</tr>
 									</thead>
@@ -55,6 +56,7 @@
 											<th>Buy Date</th>
 											<th>Paid</th>
 											<th>Status</th>
+											<th></th>
 											<th>Action</th>
 										</tr>
 									</tfoot>
@@ -66,7 +68,13 @@
 												<td>${b.buydate}</td>
 												<td>${b.paid?"Paid":"Waiting for Payment"}</td>
 												<td>${b.status?"Done":"In Progress"}</td>
+												<td style="width: 5vh"><c:if test="${!b.status}">
+														<button class="btn btn-primary"
+															onclick="location.href='admin/bill/complete/${b.id}.htm'"
+															style="width:100%; min-width: 55px;">Complete</button>
+													</c:if></td>
 												<td>
+
 													<button class="btn btn-primary"
 														onclick="location.href='admin/bill/view/${b.id}.htm'"
 														style="width: 20%; min-width: 55px;">Xem</button>

@@ -126,7 +126,23 @@ public class BillController {
 		}
 		return "redirect:/admin/bill/update/" + b.getId() + ".htm";
 	}
-
+	
+	@RequestMapping("complete/{id}")
+	public String complete(@PathVariable("id") int id) {
+		Session session = factory.openSession();
+		Transaction t = session.beginTransaction();
+		Bill bill=(Bill) session.get(Bill.class, id);
+		bill.setStatus(true);
+		try {
+			session.update(bill);
+			t.commit();
+		} catch (Exception e) {
+			t.rollback();
+		} finally {
+			session.close();
+		}
+		return "redirect:/admin/bill/table.htm";
+	}
 	@RequestMapping("delete/{id}")
 	public String delete(RedirectAttributes re, @PathVariable("id") int id) {
 		Session session = factory.openSession();
