@@ -69,7 +69,7 @@
 									<div class="col-md-4">
 										<div class="form-group">
 											<label class="small mb-1"><h5>Password</h5></label>
-											<form:input class="form-control" required="required"
+											<form:input type="password" class="form-control" required="required"
 												path="password" />
 										</div>
 									</div>
