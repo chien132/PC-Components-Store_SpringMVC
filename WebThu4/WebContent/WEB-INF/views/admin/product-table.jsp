@@ -74,17 +74,20 @@
 											<td>${p.brand.name}</td>
 											<td style="max-width: 22vh;">${p.name}</td>
 											<td style="max-width: 62vh;">${p.des}</td>
-											<td><f:formatNumber type="currency" maxFractionDigits="0" currencySymbol="" value="${p.price}"/></td>
+											<td><f:formatNumber type="currency"
+													maxFractionDigits="0" currencySymbol="" value="${p.price}" /></td>
 											<td style="min-width: 5vh;">${p.quantity}</td>
-											<td style="min-width: 5vh;"><f:formatNumber type="percent"
-													value="${p.discount/100}" /></td>
+											<td style="min-width: 5vh;"><f:formatNumber
+													type="percent" value="${p.discount/100}" /></td>
 											<td><button class="btn btn-primary"
 													onclick="location.href='admin/product/update/${p.id}.htm'"
 													style="width: 45%; min-width: 55px;">Sửa</button>
-												<div style="padding: 3px;"></div>
-												<button class="btn btn-primary"
-													onclick="location.href='admin/product/delete/${p.id}.htm'"
-													style="width: 45%; min-width: 55px; background-color: red;">Xóa</button></td>
+												<div style="padding: 3px;"></div> <c:if
+													test="${p.boughtqty==0}">
+													<button class="btn btn-primary"
+														onclick="location.href='admin/product/delete/${p.id}.htm'"
+														style="width: 45%; min-width: 55px; background-color: red;">Xóa</button>
+												</c:if></td>
 										</tr>
 									</c:forEach>
 								</tbody>

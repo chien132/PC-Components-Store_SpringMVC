@@ -35,6 +35,14 @@ public class Product {
 	@OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
 	private Collection<BillItem> billItems;
 
+	public int getboughtqty() {
+		int size = 0;
+		for (BillItem i : billItems) {
+			size += i.getAmount();
+		}
+		return size;
+	}
+
 	public long getrealprice() {
 		return (long) price * (long) (100 - discount) / 100;
 	}

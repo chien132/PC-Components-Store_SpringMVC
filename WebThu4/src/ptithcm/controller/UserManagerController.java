@@ -161,18 +161,21 @@ public class UserManagerController {
 	}
 
 	@RequestMapping("delete/{uid}")
-	public String delete(RedirectAttributes re, @PathVariable("uid") int id) {
-		Session session = factory.openSession();
-		Transaction t = session.beginTransaction();
-		try {
-			session.delete(session.get(User.class, id));
-			t.commit();
-			re.addFlashAttribute("message", "Deleted !");
-		} catch (Exception e) {
-			t.rollback();
-			re.addFlashAttribute("message", "Delete Failed !");
-		} finally {
-			session.close();
+	public String delete(HttpSession httpSession, RedirectAttributes re, @PathVariable("uid") int id) {
+		User currentu = (User) httpSession.getAttribute("user");
+		if (currentu.getId() != id) {
+			Session session = factory.openSession();
+			Transaction t = session.beginTransaction();
+			try {
+				session.delete(session.get(User.class, id));
+				t.commit();
+				re.addFlashAttribute("message", "Deleted !");
+			} catch (Exception e) {
+				t.rollback();
+				re.addFlashAttribute("message", "Delete Failed !");
+			} finally {
+				session.close();
+			}
 		}
 		return "redirect:/admin/user/table.htm";
 	}

@@ -71,7 +71,7 @@
 												<td style="width: 5vh"><c:if test="${!b.status}">
 														<button class="btn btn-primary"
 															onclick="location.href='admin/bill/complete/${b.id}.htm'"
-															style="width:100%; min-width: 55px;">Complete</button>
+															style="width: 100%; min-width: 55px;">Complete</button>
 													</c:if></td>
 												<td>
 
@@ -80,11 +80,12 @@
 														style="width: 20%; min-width: 55px;">Xem</button>
 													<button class="btn btn-primary"
 														onclick="location.href='admin/bill/update/${b.id}.htm'"
-														style="width: 20%; min-width: 55px;">Sửa</button>
-													<button class="btn btn-primary"
-														onclick="location.href='admin/bill/delete/${b.id}.htm'"
-														style="width: 20%; background-color: red; min-width: 55px;">Delete</button>
-													<!-- 		<div style="padding: 3px;"></div> 													<button class="btn btn-primary" -->
+														style="width: 20%; min-width: 55px;">Sửa</button> <c:if
+														test="${b.cartqty==0}">
+														<button class="btn btn-primary"
+															onclick="location.href='admin/bill/delete/${b.id}.htm'"
+															style="width: 20%; background-color: red; min-width: 55px;">Delete</button>
+													</c:if> <!-- 		<div style="padding: 3px;"></div> 													<button class="btn btn-primary" -->
 													<%-- 															onclick="location.href='admin/bill/delete/${b.id}.htm'" --%>
 													<!-- 															style="width: 45%; min-width: 55px;">Xóa</button> -->
 												</td>

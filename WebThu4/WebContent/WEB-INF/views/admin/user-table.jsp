@@ -73,10 +73,12 @@
 											<td><button class="btn btn-primary"
 													onclick="location.href='admin/user/update/${u.id}.htm'"
 													style="width: 45%; min-width: 55px;">Sửa</button>
-												<div style="padding: 3px;"></div>
-												<button class="btn btn-primary"
-													onclick="location.href='admin/user/delete/${u.id}.htm'"
-													style="width: 45%; min-width: 55px;background-color: red;">Xóa</button></td>
+												<div style="padding: 3px;"></div> <c:if
+													test="${u.billsize==0}">
+													<button class="btn btn-primary"
+														onclick="location.href='admin/user/delete/${u.id}.htm'"
+														style="width: 45%; min-width: 55px; background-color: red;">Xóa</button>
+												</c:if></td>
 										</tr>
 									</c:forEach>
 								</tbody>

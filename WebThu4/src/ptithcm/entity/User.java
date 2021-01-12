@@ -25,7 +25,9 @@ public class User {
 	private Collection<Bill> bills;
 
 	
-	
+	public int getbillsize() {
+		return bills.size();
+	}
 	public String getFullname() {
 		return fullname;
 	}

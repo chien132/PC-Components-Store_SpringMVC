@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jstl/fmt_rt" prefix="f"%>
 <!DOCTYPE html>
 <html lang="en">
-
+<base href="${pageContext.servletContext.contextPath}/">
 <head>
 <meta charset="utf-8" />
 <title>Admin - Index</title>
@@ -55,6 +55,7 @@
 										<th>Buy Date</th>
 										<th>Paid</th>
 										<th>Status</th>
+										<th>Value</th>
 									</tr>
 								</thead>
 
@@ -67,7 +68,8 @@
 													pattern="dd/MM/yyyy" /></td>
 											<td>${b.paid?"Paid":"Waiting for Payment"}</td>
 											<td>${b.status?"Done":"In Progress"}</td>
-
+											<td><a style="color:white;" href="admin/bill/update/${b.id}.htm"><f:formatNumber type="currency" currencySymbol=""
+													maxFractionDigits="0" value="${b.cartvalue}" /> ₫</a></td>
 										</tr>
 									</c:forEach>
 									<c:forEach var="b" items="${progresslist}">
@@ -78,7 +80,8 @@
 													pattern="dd/MM/yyyy" /></td>
 											<td>${b.paid?"Paid":"Waiting for Payment"}</td>
 											<td>${b.status?"Done":"In Progress"}</td>
-
+											<td><f:formatNumber type="currency" currencySymbol=""
+													maxFractionDigits="0" value="${b.cartvalue}" /> ₫</td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -99,8 +102,12 @@
 					<div class="col-xl-4">
 						<div class="card bg-warning text-white mb-4">
 							<div class="card-body">
-								<h4>${progressnumber } Processing Card Worth <f:formatNumber type="currency" value="${progresscash}"
-										maxFractionDigits="0" currencySymbol="" /><sup>đ</sup></h4>
+								<h4>${progressnumber }
+									Processing:
+									<f:formatNumber type="currency" value="${progresscash}"
+										maxFractionDigits="0" currencySymbol="" />
+									<sup>đ</sup>
+								</h4>
 							</div>
 
 						</div>
@@ -109,9 +116,10 @@
 						<div class="card bg-success text-white mb-4">
 							<div class="card-body">
 								<h4>
-									${successnumber } Success Card Worth 
+									${successnumber } Success:
 									<f:formatNumber type="currency" value="${cash}"
-										maxFractionDigits="0" currencySymbol="" /><sup>đ</sup>
+										maxFractionDigits="0" currencySymbol="" />
+									<sup>đ</sup>
 								</h4>
 							</div>
 

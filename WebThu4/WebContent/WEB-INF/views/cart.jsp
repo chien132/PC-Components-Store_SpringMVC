@@ -39,17 +39,17 @@
 									</div>
 								</td>
 								<td>
-									<h4>
+									<h5>
 										<f:formatNumber type="currency" currencySymbol=""
 											maxFractionDigits="0"
 											value="${bi.product.price*(100-bi.product.discount)/100}" />
 										₫
-									</h4>
+									</h5>
 								</td>
 								<td class="row" style="width:;"><button
 										onclick="location.href='edititem/${bi.id}/-1.htm'"
 										style="width: 30%;">-</button> <label
-									style="width: 30%; font-size: 20px; color: red; font-weight: bold;">${bi.amount}</label>
+									style="/*width: 30%;*/ font-size: 20px; color: red; font-weight: bold;">${bi.amount}</label>
 									<button onclick="location.href='edititem/${bi.id}/1.htm'"
 										style="width: 30%;">+</button></td>
 								<td>
