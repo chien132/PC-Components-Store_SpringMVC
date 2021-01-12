@@ -120,6 +120,7 @@ public class UserController {
 			}
 		}
 		if (!errors.hasErrors()) {
+			user.setAvatar("images/avatar/user-default.png");
 			Session session = factory.getCurrentSession();
 			String hql = String.format("from User where username='%s'", user.getUsername());
 			Query query = session.createQuery(hql);
@@ -171,7 +172,7 @@ public class UserController {
 					body += "Username: " + u.getUsername() + "\nEmail: " + u.getEmail() + "\nPassword: "
 							+ u.getPassword() + "\n\n";
 				}
-				System.out.println(body);
+//				System.out.println(body);
 				// String from = "XGear - PC & Laptop Gaming";
 				MimeMessage mail = mailer.createMimeMessage();
 

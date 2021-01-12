@@ -64,7 +64,7 @@ public class ProductController {
 
 	@RequestMapping("table")
 	public String table(ModelMap model) {
-		String hql = "FROM Product";
+		String hql = "FROM Product  order by cate_id";
 		List<Object> list = getList(hql);
 		model.addAttribute("products", list);
 		return "admin/product-table";

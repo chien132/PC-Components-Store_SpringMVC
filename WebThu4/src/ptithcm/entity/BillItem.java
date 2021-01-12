@@ -11,22 +11,23 @@ import javax.persistence.Table;
 @Table(name = "BillItem")
 public class BillItem {
 
-	@Id @GeneratedValue
+	@Id
+	@GeneratedValue
 	private int id;
 	private int amount;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "product_id")
 	private Product product;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "bill_id")
 	private Bill bill;
 
 	public long getvalue() {
-		return amount*product.getrealprice();
+		return (long) amount * (long) product.getrealprice();
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -58,6 +59,5 @@ public class BillItem {
 	public void setBill(Bill bill) {
 		this.bill = bill;
 	}
-	
-	
+
 }

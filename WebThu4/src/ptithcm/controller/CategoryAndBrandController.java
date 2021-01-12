@@ -40,23 +40,23 @@ public class CategoryAndBrandController {
 
 	@ModelAttribute("categories")
 	public List<Object> getstaffs() {
-		String hql = "from Category";
+		String hql = "from Category order by name";
 		List<Object> list = getList(hql);
 		return list;
 	}
 
 	@ModelAttribute("brands")
 	public List<Object> getsbrands() {
-		String hql = "from Brand";
+		String hql = "from Brand order by name";
 		List<Object> list = getList(hql);
 		return list;
 	}
 
 	@RequestMapping("category/table")
 	public String table(ModelMap model) {
-		String hql = "FROM Category";
-		List<Object> list = getList(hql);
-		model.addAttribute("categories", list);
+//		String hql = "FROM Category";
+//		List<Object> list = getList(hql);
+//		model.addAttribute("categories", list);
 		return "admin/category-brand-table";
 	}
 

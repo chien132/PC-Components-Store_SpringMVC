@@ -25,7 +25,7 @@ public class AuthorizeInterceptor extends HandlerInterceptorAdapter {
 				return false;
 			}
 		}
-		System.out.println("all hail ADMIN");
+		System.out.println("hail admin");
 		return true;
 	}
 

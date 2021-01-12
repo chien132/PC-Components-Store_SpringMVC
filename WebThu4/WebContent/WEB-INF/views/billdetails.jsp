@@ -11,9 +11,49 @@
 		<div class="clearfix"></div>
 		<div class="container_fullwidth" style="min-height: 57vh;">
 			<div class="col-md-12" style="background: white;">
-			<h3 style="color: green;font-weight: 500;">Success !</h3>
-				<h3 class="title">Your bill:</h3>
+				<!-- 				<h3 style="color: green; font-weight: 500;">Success !</h3> -->
+				<h3
+					style="color: green; margin-left: 10vh; -webkit-text-stroke-width: medium;"
+					class="title">Your bill list:</h3>
 				<div class="clearfix"></div>
+				<table class="shop-table" style="font-size: 18px;">
+					<thead>
+						<tr>
+							<th>Buy Date</th>
+							<th>Total</th>
+							<th>Paid</th>
+							<th>Status</th>
+							<th>View</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="b" items="${ubills}">
+							<c:if test="${b.paid=='true'}">
+								<tr style="margin-bottom: 0px;">
+									<td>${b.buydate}</td>
+									<td><f:formatNumber type="currency" currencySymbol=""
+											maxFractionDigits="0" value="${b.cartvalue}" /> ₫</td>
+									<td>${b.paid?"Paid":"Waiting for Payment"}</td>
+									<td>${b.status?"Done":"In Progress"}</td>
+
+									<td>
+
+										<button class="btn btn-primary"
+											onclick="location.href='checkout/${b.id}.htm'"
+											style="width: 20%; min-width: 55px;">Xem</button>
+
+									</td>
+								</tr>
+							</c:if>
+						</c:forEach>
+					</tbody>
+
+				</table>
+
+				<div class="clearfix"></div>
+				<h3
+					style="color: green; margin-left: 10vh; margin-top: 10vh; -webkit-text-stroke-width: medium;"
+					class="title">Your bill details:</h3>
 				<table class="shop-table">
 					<thead>
 						<tr>
@@ -26,7 +66,7 @@
 					</thead>
 					<tbody>
 						<c:forEach var="bi" items="${bill.billItems}">
-							<tr>
+							<tr style="margin-bottom: 0px;">
 								<td><img src="${bi.product.image}"></td>
 								<td>
 									<div class="shop-details">
@@ -57,7 +97,7 @@
 										</strong>
 									</h5>
 								</td>
-								
+
 							</tr>
 						</c:forEach>
 
@@ -76,6 +116,7 @@
 					</tfoot>
 				</table>
 				<div class="clearfix"></div>
+
 
 			</div>
 		</div>

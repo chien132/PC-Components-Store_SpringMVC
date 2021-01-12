@@ -80,7 +80,7 @@
 						</tr>
 						<c:if test="${cart.cartvalue>0}">
 							<tr>
-								<td colspan="6"><a href="checkout/${cart.id}.htm"><button
+								<td colspan="6"><a href="checkout.htm?id=${cart.id}"><button
 											class=" pull-right"
 											style="background-color: green; color: white; font-weight: bold;">
 											<h3>Checkout</h3>

@@ -1,8 +1,10 @@
 package ptithcm.controller;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import javax.websocket.server.PathParam;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ptithcm.entity.Bill;
@@ -31,6 +34,8 @@ import ptithcm.entity.User;
 public class HomeController {
 	@Autowired
 	SessionFactory factory;
+	@Autowired
+	ServletContext context;
 
 	@RequestMapping("")
 	public String welcome() {
@@ -44,9 +49,35 @@ public class HomeController {
 		return list;
 	}
 
+	@ModelAttribute("ubills")
+	public List<Object> getbills(HttpSession httpSession) {
+		User user = (User) httpSession.getAttribute("user");
+		if (user != null) {
+			String hql = "from Bill where user.id=" + user.getId();
+			List<Object> list = getList(hql);
+//			System.out.println(hql + list.size());
+			return list;
+		}
+		return null;
+	}
+
 	@ModelAttribute("categories")
-	public List<Object> getstaffs() {
+	public List<Object> getcates() {
 		String hql = "from Category";
+		List<Object> list = getList(hql);
+		return list;
+	}
+
+	@ModelAttribute("products")
+	public List<Object> getproducts() {
+		String hql = "from Product";
+		List<Object> list = getList(hql);
+		return list;
+	}
+
+	@ModelAttribute("brands")
+	public List<Object> getbrands() {
+		String hql = "from Brand";
 		List<Object> list = getList(hql);
 		return list;
 	}
@@ -83,40 +114,6 @@ public class HomeController {
 		return null;
 	}
 
-	@ModelAttribute("products")
-	public List<Object> getproducts() {
-		String hql = "from Product";
-		List<Object> list = getList(hql);
-		return list;
-	}
-
-	@ModelAttribute("brands")
-	public List<Object> getsbrands() {
-		String hql = "from Brand";
-		List<Object> list = getList(hql);
-		return list;
-	}
-
-//	@RequestMapping("productlist")
-//	public String productgrid(ModelMap model) {
-//		String hql = "FROM Product";
-//		List<Object> list = getList(hql);
-//		model.addAttribute("products", list);
-//		model.addAttribute("type", "list");
-//		return "product";
-//
-//	}
-//
-//	@RequestMapping("productgrid")
-//	public String productlist(ModelMap model) {
-//		String hql = "FROM Product";
-//		List<Object> list = getList(hql);
-//		model.addAttribute("products", list);
-//		model.addAttribute("type", "grid");
-//		return "product";
-//
-//	}
-
 	@RequestMapping("index")
 	public String index(ModelMap model, HttpSession httpSession) {
 //		String hql = "FROM Product";
@@ -127,12 +124,13 @@ public class HomeController {
 	}
 
 	public void loadindex(ModelMap model, String query, Integer page, String view) {
+		query += " order by name";
 		List<Object> list = getList(query);
 		model.addAttribute("products", list.subList((page - 1) * 8, (page * 8 > list.size() ? list.size() : page * 8)));
 		model.addAttribute("page", page);
 		model.addAttribute("maxpage", Math.ceil(list.size() / 8.0));
 		model.addAttribute("view", view);
-		System.out.println(list.size());
+//		System.out.println(list.size());
 //		model.addAttribute("search", search);
 //		model.addAttribute("brand", brandid);
 //		model.addAttribute("cate", cateid);
@@ -393,11 +391,15 @@ public class HomeController {
 		return "redirect:/" + ret + ".htm";
 	}
 
-	@RequestMapping("checkout/{id}")
-	public String checkout(ModelMap model, @PathVariable("id") int id, RedirectAttributes re) {
+	@RequestMapping(value = "checkout.htm", params = "id")
+	public String checkout(ModelMap model, @PathParam("id") int id, RedirectAttributes re) {
 		Session session = factory.openSession();
 		Transaction t = session.beginTransaction();
 		Bill bill = (Bill) session.get(Bill.class, id);
+		if (bill.isPaid() == true) {
+			model.addAttribute("bill", bill);
+			return "billdetails";
+		}
 		if (bill.getBillItems().size() == 0) {
 			re.addFlashAttribute("message", "Your cart is empty !");
 			return "redirect:/cart.htm";
@@ -417,5 +419,63 @@ public class HomeController {
 		}
 		model.addAttribute("bill", bill);
 		return "billdetails";
+	}
+
+	@RequestMapping(value = "profile", method = RequestMethod.GET)
+	public String billlist(ModelMap model, HttpSession httpSession) {
+		User u = (User) httpSession.getAttribute("user");
+		model.addAttribute(u);
+		return "profile";
+	}
+
+	@RequestMapping(value = "editprofile", method = RequestMethod.POST)
+	public String update(@ModelAttribute("user") User u, HttpSession httpSession,
+			@RequestParam("photo") MultipartFile photo, RedirectAttributes re) {
+		User prev = (User) httpSession.getAttribute("user");
+		Session session1 = factory.getCurrentSession();
+		Session session2 = factory.openSession();
+		u.setId(prev.getId());
+		u.setAdmin(prev.isAdmin());
+
+		String hql = String.format("from User where username='%s'", u.getUsername());
+		Query query = session1.createQuery(hql);
+		List<User> list = query.list();
+		if (!list.isEmpty()) {
+			if (list.get(0).getId() != u.getId()) {
+				re.addFlashAttribute("message", "This username is not available !");
+				return "redirect:/profile.htm";
+			}
+
+		}
+
+		if (photo.getOriginalFilename().isEmpty()) {
+			User temp = (User) session1.get(User.class, u.getId());
+			u.setAvatar(temp.getAvatar());
+		} else if (!(photo.getContentType().contains("jpeg") || photo.getContentType().contains("png"))) {
+			re.addFlashAttribute("message", "This file type is not supported !");
+		} else {
+			try {
+				String photoPath = context.getRealPath("/images/avatar/" + photo.getOriginalFilename());
+				photo.transferTo(new File(photoPath));
+				u.setAvatar("images/avatar/" + photo.getOriginalFilename());
+			} catch (Exception e) {
+				re.addFlashAttribute("message", "Save file error: " + e);
+				return "redirect:/profile.htm";
+			}
+		}
+		Transaction t = session2.beginTransaction();
+		try {
+			session2.update(u);
+			t.commit();
+			httpSession.setAttribute("user", u);
+			re.addFlashAttribute("message", "Success !");
+		} catch (Exception e) {
+			t.rollback();
+			re.addFlashAttribute("message", "Update failed !" + e);
+		} finally {
+			session2.close();
+		}
+		return "redirect:/profile.htm";
+
 	}
 }

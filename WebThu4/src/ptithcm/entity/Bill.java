@@ -51,9 +51,9 @@ public class Bill {
 	public long getcartvalue() {
 		long value = 0;
 		for (BillItem i : billItems) {
-			value += i.getvalue();
+			value += (long) i.getvalue();
 		}
-		System.out.println(value);
+//		System.out.println(value);
 		return value;
 	}
 

@@ -36,7 +36,7 @@ public class Product {
 	private Collection<BillItem> billItems;
 
 	public long getrealprice() {
-		return price * (100 - discount) / 100;
+		return (long) price * (long) (100 - discount) / 100;
 	}
 
 	public int getPrice() {

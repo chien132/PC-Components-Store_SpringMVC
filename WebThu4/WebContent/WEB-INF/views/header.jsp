@@ -88,8 +88,8 @@
 											<input class="search-submit" type="submit" value=""><input
 												class="search-input" placeholder="Enter your search term..."
 												type="text" value="" name="search"> <input
-												type="hidden" value="grid" name="view" />
-											<input type="hidden" value="1" name="page" />
+												type="hidden" value="grid" name="view" /> <input
+												type="hidden" value="1" name="page" />
 										</form>
 									</li>
 									<li class="option-cart"><a href="cart.htm"
@@ -143,10 +143,10 @@
 										<c:when test="${user!=null}">
 
 											<li>
-												<h6 style="color: cyan;">Logged in as ${user.username}
-												</h6>
+												<a href="profile.htm" class="log" style="color: cyan;">Logged in as
+													${user.username}</a>
 											</li>
-											<li><a href="logout.htm" class="log"> Logout </a></li>
+											<li><a href="logout.htm"> Logout </a></li>
 
 										</c:when>
 									</c:choose>

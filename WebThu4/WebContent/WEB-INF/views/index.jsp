@@ -17,46 +17,172 @@
 						<h3 class="title">
 							<strong>Featured </strong> Products
 						</h3>
-						<c:if test="${brand==null&&cate==null}">
-							<div class="toolbar">
+						<c:choose>
+							<c:when test="${search!=null}">
+								<div class="toolbar">
 
-								<div class="view-mode">
-									<c:if test="${view=='list'}">
-										<a class="list active"> List </a>
-										<a href="index.htm?page=${page}&view=grid&search=${search}"
-											class="grid"> Grid </a>
-									</c:if>
-									<c:if test="${view=='grid'}">
-										<a href="index.htm?page=${page}&view=list&search=${search}"
-											class="list"> List </a>
-										<a class="grid active"> Grid </a>
-									</c:if>
+									<div class="view-mode">
+										<c:if test="${view=='list'}">
+											<a class="list active"> List </a>
+											<a href="index.htm?page=${page}&view=grid&search=${search}"
+												class="grid"> Grid </a>
+										</c:if>
+										<c:if test="${view=='grid'}">
+											<a href="index.htm?page=${page}&view=list&search=${search}"
+												class="list"> List </a>
+											<a class="grid active"> Grid </a>
+										</c:if>
+									</div>
+
+									<div class="pager" style="display: flex;">
+										<c:if test="${page==1}">
+											<button style="pointer-events: none; opacity: 0.4;">Prev</button>
+										</c:if>
+										<c:if test="${page>1}">
+											<a href="index.htm?page=${page-1}&view=${view}&search=${search}">
+												<button>Prev</button>
+											</a>
+										</c:if>
+										<h3 style="margin: 1vh;">${page}</h3>
+										<c:if test="${page==maxpage}">
+											<button style="pointer-events: none; opacity: 0.4;">Next</button>
+										</c:if>
+										<c:if test="${page<maxpage}">
+											<a href="index.htm?page=${page+1}&view=${view}&search=${search}">
+												<button>Next</button>
+											</a>
+										</c:if>
+										<!-- 								<a href="# "> Prev </a> <a href="# " class="active "> 1 </a> <a -->
+										<!-- 									href="# "> 2 </a> <a href="# "> 3 </a> <a href="# "> Next</a> -->
+									</div>
+
 								</div>
+							</c:when>
 
-								<div class="pager" style="display: flex;">
-									<c:if test="${page==1}">
-										<button style="pointer-events: none; opacity: 0.4;">Prev</button>
-									</c:if>
-									<c:if test="${page>1}">
-										<a href="index.htm?page=${page-1}&view=grid&search=${search}">
-											<button>Prev</button>
-										</a>
-									</c:if>
-									<h3 style="margin: 1vh;">${page}</h3>
-									<c:if test="${page==maxpage}">
-										<button style="pointer-events: none; opacity: 0.4;">Next</button>
-									</c:if>
-									<c:if test="${page<maxpage}">
-										<a href="index.htm?page=${page+1}&view=grid&search=${search}">
-											<button>Next</button>
-										</a>
-									</c:if>
-									<!-- 								<a href="# "> Prev </a> <a href="# " class="active "> 1 </a> <a -->
-									<!-- 									href="# "> 2 </a> <a href="# "> 3 </a> <a href="# "> Next</a> -->
+							<c:when test="${brand!=null}">
+								<div class="toolbar">
+
+									<div class="view-mode">
+										<c:if test="${view=='list'}">
+											<a class="list active"> List </a>
+											<a href="index.htm?page=${page}&view=grid&brand=${brand}"
+												class="grid"> Grid </a>
+										</c:if>
+										<c:if test="${view=='grid'}">
+											<a href="index.htm?page=${page}&view=list&brand=${brand}"
+												class="list"> List </a>
+											<a class="grid active"> Grid </a>
+										</c:if>
+									</div>
+
+									<div class="pager" style="display: flex;">
+										<c:if test="${page==1}">
+											<button style="pointer-events: none; opacity: 0.4;">Prev</button>
+										</c:if>
+										<c:if test="${page>1}">
+											<a href="index.htm?page=${page-1}&view=${view}&brand=${brand}">
+												<button>Prev</button>
+											</a>
+										</c:if>
+										<h3 style="margin: 1vh;">${page}</h3>
+										<c:if test="${page==maxpage}">
+											<button style="pointer-events: none; opacity: 0.4;">Next</button>
+										</c:if>
+										<c:if test="${page<maxpage}">
+											<a href="index.htm?page=${page+1}&view=${view}&brand=${brand}">
+												<button>Next</button>
+											</a>
+										</c:if>
+										<!-- 								<a href="# "> Prev </a> <a href="# " class="active "> 1 </a> <a -->
+										<!-- 									href="# "> 2 </a> <a href="# "> 3 </a> <a href="# "> Next</a> -->
+									</div>
+
 								</div>
+							</c:when>
 
-							</div>
-						</c:if>
+							<c:when test="${cate!=null}">
+								<div class="toolbar">
+
+									<div class="view-mode">
+										<c:if test="${view=='list'}">
+											<a class="list active"> List </a>
+											<a href="index.htm?page=${page}&view=grid&cate=${cate}"
+												class="grid"> Grid </a>
+										</c:if>
+										<c:if test="${view=='grid'}">
+											<a href="index.htm?page=${page}&view=list&cate=${cate}"
+												class="list"> List </a>
+											<a class="grid active"> Grid </a>
+										</c:if>
+									</div>
+
+									<div class="pager" style="display: flex;">
+										<c:if test="${page==1}">
+											<button style="pointer-events: none; opacity: 0.4;">Prev</button>
+										</c:if>
+										<c:if test="${page>1}">
+											<a href="index.htm?page=${page-1}&view=${view}&cate=${cate}">
+												<button>Prev</button>
+											</a>
+										</c:if>
+										<h3 style="margin: 1vh;">${page}</h3>
+										<c:if test="${page==maxpage}">
+											<button style="pointer-events: none; opacity: 0.4;">Next</button>
+										</c:if>
+										<c:if test="${page<maxpage}">
+											<a href="index.htm?page=${page+1}&view=${view}&cate=${cate}">
+												<button>Next</button>
+											</a>
+										</c:if>
+										<!-- 								<a href="# "> Prev </a> <a href="# " class="active "> 1 </a> <a -->
+										<!-- 									href="# "> 2 </a> <a href="# "> 3 </a> <a href="# "> Next</a> -->
+									</div>
+
+								</div>
+							</c:when>
+
+							<c:otherwise>
+								<div class="toolbar">
+
+									<div class="view-mode">
+										<c:if test="${view=='list'}">
+											<a class="list active"> List </a>
+											<a href="index.htm?page=${page}&view=grid" class="grid">
+												Grid </a>
+										</c:if>
+										<c:if test="${view=='grid'}">
+											<a href="index.htm?page=${page}&view=list" class="list">
+												List </a>
+											<a class="grid active"> Grid </a>
+										</c:if>
+									</div>
+
+									<div class="pager" style="display: flex;">
+										<c:if test="${page==1}">
+											<button style="pointer-events: none; opacity: 0.4;">Prev</button>
+										</c:if>
+										<c:if test="${page>1}">
+											<a href="index.htm?page=${page-1}&view=${view}">
+												<button>Prev</button>
+											</a>
+										</c:if>
+										<h3 style="margin: 1vh;">${page}</h3>
+										<c:if test="${page==maxpage}">
+											<button style="pointer-events: none; opacity: 0.4;">Next</button>
+										</c:if>
+										<c:if test="${page<maxpage}">
+											<a href="index.htm?page=${page+1}&view=${view}">
+												<button>Next</button>
+											</a>
+										</c:if>
+										<!-- 								<a href="# "> Prev </a> <a href="# " class="active "> 1 </a> <a -->
+										<!-- 									href="# "> 2 </a> <a href="# "> 3 </a> <a href="# "> Next</a> -->
+									</div>
+
+								</div>
+							</c:otherwise>
+						</c:choose>
+
 					</div>
 					<!-- 					<ul id="featured "> -->
 					<!-- 						<li> -->
