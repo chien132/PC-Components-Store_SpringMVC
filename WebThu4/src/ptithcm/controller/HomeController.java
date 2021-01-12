@@ -440,7 +440,7 @@ public class HomeController {
 	@RequestMapping(value = "profile", method = RequestMethod.GET)
 	public String profile(ModelMap model, HttpSession httpSession) {
 		User u = (User) httpSession.getAttribute("user");
-		model.addAttribute(u);
+		model.addAttribute("user",u);
 		return "profile";
 	}
 

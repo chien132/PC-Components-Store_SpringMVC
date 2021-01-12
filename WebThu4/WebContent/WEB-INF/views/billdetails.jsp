@@ -12,7 +12,7 @@
                         <div class="container_fullwidth" style="min-height: 57vh;">
                             <div class="col-md-12" style="background: white;">
                                 <!-- 				<h3 style="color: green; font-weight: 500;">Success !</h3> -->
-                                <h3 style="color: green; margin-left: 10vh; -webkit-text-stroke-width: medium;" class="title">Your bill list:</h3>
+                                <h3 style="color: green; padding-left: 10vh; -webkit-text-stroke-width: medium;" class="title">Your bill list:</h3>
                                 <div class="clearfix"></div>
                                 <table class="shop-table" style="font-size: 18px;">
                                     <thead>
@@ -47,7 +47,7 @@
                                 </table>
 
                                 <div class="clearfix"></div>
-                                <h3 style="color: green; margin-left: 10vh; margin-top: 10vh; -webkit-text-stroke-width: medium;" class="title">Your bill details:</h3>
+                                <h3 style="color: green; padding-left: 10vh; margin-top: 10vh; -webkit-text-stroke-width: medium;" class="title">Your bill details:</h3>
                                 <table class="shop-table">
                                     <thead>
                                         <tr>

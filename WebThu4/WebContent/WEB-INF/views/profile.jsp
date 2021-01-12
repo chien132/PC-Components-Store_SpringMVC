@@ -34,7 +34,7 @@
 			<div class="col-md-12" style="background: white;">
 				<!-- 				<h3 style="color: green; font-weight: 500;">Success !</h3> -->
 				<h3
-					style="color: green; margin-left: 10vh; -webkit-text-stroke-width: medium;"
+					style="color: green; padding-left: 10vh; -webkit-text-stroke-width: medium;"
 					class="title">Your Profile:</h3>
 				<div class="clearfix"></div>
 				<div class="card-body">
@@ -94,10 +94,10 @@
 										onclick="location.href='billlist.htm'" type="button">View your bills</button>
 								</div>
 							</div>
-							<div class="col-lg-3">
+							<div class="col-lg-3"><h3 style="margin-bottom: 5vh;">Avatar:</h3>
 								<img id="thisimage"
 									style="max-width: -webkit-fill-available; max-height: 70vh;"
-									alt="" src="${u.avatar}">
+									alt="" src="${user.avatar}">
 							</div>
 						</div>
 					</form:form>
