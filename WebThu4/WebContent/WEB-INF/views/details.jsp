@@ -70,12 +70,9 @@
 							<div class="tab-content-wrap">
 								<div class="tab-content" id="Descraption">
 
-									<h3>${p.des}</h3>
-
+									<h5
+										style="font-family: ui-serif; font-size: 20px; line-height: 3vh;">${p.des}</h5>
 								</div>
-
-
-
 							</div>
 
 						</div>

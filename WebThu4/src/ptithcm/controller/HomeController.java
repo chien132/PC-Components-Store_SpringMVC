@@ -191,7 +191,9 @@ public class HomeController {
 		 * List<Object> list=getList(hql);
 		 */
 		model.addAttribute("indetail", 1);
-		model.addAttribute("p", session.get(Product.class, pid));
+		Product p = (Product) session.get(Product.class, pid);
+		p.setDes(p.getDes().replaceAll("\n", "<br>"));
+		model.addAttribute("p", p);
 		return "details";
 	}
 
