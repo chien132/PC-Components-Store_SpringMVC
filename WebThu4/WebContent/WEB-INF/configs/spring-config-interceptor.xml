@@ -20,7 +20,6 @@
 		<mvc:interceptor>
 			<mvc:mapping path="/admin/**" />
 			<mvc:mapping path="/checkout.htm" />
-			<mvc:mapping path="/cart.htm" />
 			<mvc:exclude-mapping path="/admin/bill/edititem/*/delete/*.htm" />
 			<bean class="ptithcm.interceptor.AuthorizeInterceptor" />
 		</mvc:interceptor>
