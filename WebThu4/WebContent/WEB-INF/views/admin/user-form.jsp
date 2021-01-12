@@ -45,7 +45,7 @@
 							<div class="card shadow-lg border-0 rounded-lg mt-5">
 								<div class="card-header">
 									<h3 class="text-center font-weight-light my-4"
-										style="text-transform: capitalize;">${action}User</h3>
+										style="text-transform: capitalize;">${action} User</h3>
 								</div>
 								<div class="card-body" style="min-height: 80vh;">
 									<form:form action="admin/user/${action}.htm" modelAttribute="u"

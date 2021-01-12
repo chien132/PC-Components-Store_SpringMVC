@@ -39,7 +39,7 @@
 							<div class="card shadow-lg border-0 rounded-lg mt-5">
 								<div class="card-header">
 									<h3 class="text-center font-weight-light my-4"
-										style="text-transform: capitalize;">${action}Bill</h3>
+										style="text-transform: capitalize;">${action} Bill</h3>
 								</div>
 								<div class="card-body row" style="min-height: 50vh;">
 									<c:choose>
@@ -66,7 +66,7 @@
 																style="text-transform: capitalize;"><h5>Buy
 																	date</h5></label>
 															<form:input type="date" path="buydate"
-																class="form-control"  />
+																class="form-control" />
 														</div>
 													</div>
 												</div>

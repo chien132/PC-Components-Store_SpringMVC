@@ -45,7 +45,7 @@
 							<div class="card shadow-lg border-0 rounded-lg mt-5">
 								<div class="card-header">
 									<h3 class="text-center font-weight-light my-4"
-										style="text-transform: capitalize;">${action}Product</h3>
+										style="text-transform: capitalize;">${action} Product</h3>
 								</div>
 								<div class="card-body" style="min-height: 80vh;">
 									<form:form action="admin/product/${action}.htm"
@@ -89,8 +89,8 @@
 													<div class="col-md-4">
 														<div class="form-group">
 															<label class="small mb-1"><h5>Price</h5></label>
-															<form:input type="number" path="price"
-																required="required" class="form-control" />
+															<form:input type="number" value="1000" min="1000"
+																path="price" required="required" class="form-control" />
 														</div>
 													</div>
 													<div class="col-md-4">
@@ -103,8 +103,8 @@
 													<div class="col-md-4">
 														<div class="form-group">
 															<label class="small mb-1"><h5>Quantity</h5></label>
-															<form:input path="quantity" type="number"
-																required="required" class="form-control" />
+															<form:input path="quantity" type="number" min="0"
+																value="1" required="required" class="form-control" />
 														</div>
 													</div>
 												</div>

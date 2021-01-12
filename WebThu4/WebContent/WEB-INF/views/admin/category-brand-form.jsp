@@ -6,7 +6,7 @@
 
 <head>
 <meta charset="utf-8" />
-<title>${type}-${action}</title>
+<title>${type} - ${action}</title>
 <jsp:include page="navmenu.jsp"></jsp:include>
 </head>
 
@@ -28,7 +28,7 @@
 							<div class="card shadow-lg border-0 rounded-lg mt-5">
 								<div class="card-header">
 									<h3 class="text-center font-weight-light my-4"
-										style="text-transform: capitalize;">${action}${type}</h3>
+										style="text-transform: capitalize;">${action} ${type}</h3>
 								</div>
 								<div class="card-body" style="min-height: 80vh;">
 									<form:form action="admin/${type}/${action}.htm"
@@ -38,8 +38,7 @@
 												<div class="col-md-12">
 													<div class="form-group">
 														<label class="small mb-1"
-															style="text-transform: capitalize;"><h5>${type}
-																Name</h5></label>
+															style="text-transform: capitalize;"><h5>${type} Name</h5></label>
 														<form:input type="text" path="name" class="form-control"
 															required="required" />
 													</div>

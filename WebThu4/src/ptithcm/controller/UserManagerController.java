@@ -58,6 +58,8 @@ public class UserManagerController {
 
 	@RequestMapping(value = "add", method = RequestMethod.POST)
 	public String add(@ModelAttribute("u") User u, @RequestParam("photo") MultipartFile photo, RedirectAttributes re) {
+		u.setUsername(u.getUsername().trim());
+		u.setPassword(u.getPassword().trim());
 		Session session = factory.openSession();
 		String hql = String.format("from User where username='%s'", u.getUsername());
 		Query query = session.createQuery(hql);
@@ -110,6 +112,8 @@ public class UserManagerController {
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	public String update(@ModelAttribute("u") User u, HttpSession httpSession,
 			@RequestParam("photo") MultipartFile photo, RedirectAttributes re) {
+		u.setUsername(u.getUsername().trim());
+		u.setPassword(u.getPassword().trim());
 		Session session1 = factory.getCurrentSession();
 		Session session2 = factory.openSession();
 		u.setId((int) httpSession.getAttribute("uptuid"));

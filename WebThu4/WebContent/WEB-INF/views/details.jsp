@@ -53,7 +53,7 @@
 										<form action="adddetail/${p.id}.htm" method="post">
 											<div class="qty">
 												Quantity <input style="max-width: 90px;" type="number"
-													value="1" name="qty" id="qty" />
+													value="1" min="1" max="${p.quantity}" name="qty" id="qty" />
 											</div>
 											<button class="button" type="submit">Add To Cart</button>
 										</form>

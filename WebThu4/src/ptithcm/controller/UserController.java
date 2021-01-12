@@ -55,20 +55,22 @@ public class UserController {
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public String login(ModelMap model, @ModelAttribute("user") User user, BindingResult errors,
 			HttpSession httpSession) {
-		if (user.getUsername().trim().isEmpty()) {
+		user.setUsername(user.getUsername().trim());
+		user.setPassword(user.getPassword().trim());
+		if (user.getUsername().isEmpty()) {
 			errors.rejectValue("username", "user", "Please enter your username !");
-		} else if (user.getUsername().trim().contains(" ")) {
+		} else if (user.getUsername().contains(" ")) {
 			errors.rejectValue("username", "user", "Username must not contain space !");
 		}
-		if (user.getPassword().trim().isEmpty()) {
+		if (user.getPassword().isEmpty()) {
 			errors.rejectValue("password", "user", "Please enter your password !");
-		} else if (user.getPassword().trim().contains(" ")) {
+		} else if (user.getPassword().contains(" ")) {
 			errors.rejectValue("password", "user", "Password must not contain space !");
 		}
 		if (!errors.hasErrors()) {
 			Session session = factory.getCurrentSession();
-			String hql = String.format("from User where username='%s' and password='%s'", user.getUsername().trim(),
-					user.getPassword().trim());
+			String hql = String.format("from User where username='%s' and password='%s'", user.getUsername(),
+					user.getPassword());
 			System.out.println(hql);
 			Query query = session.createQuery(hql);
 			List<User> list = query.list();
@@ -80,7 +82,7 @@ public class UserController {
 				return "redirect:/index.htm";
 			} else {
 
-				errors.rejectValue("username", "user", "Sai tên đăng nhập hoặc mật khẩu !");
+				errors.rejectValue("username", "user", "Username of password is incorrect !");
 				return "login";
 			}
 		}
@@ -192,6 +194,5 @@ public class UserController {
 		return "password";
 
 	}
-
 
 }
