@@ -90,6 +90,8 @@
 									<button class="btn btn-primary btn-block" type="submit">Submit</button>
 									<button class="btn btn-primary btn-block"
 										onclick="location.href='admin/user/table.htm'" type="button">Cancel</button>
+									<button class="btn btn-primary btn-block"
+										onclick="location.href='billlist.htm'" type="button">View your bills</button>
 								</div>
 							</div>
 							<div class="col-lg-3">

@@ -393,6 +393,20 @@ public class HomeController {
 		return "redirect:/" + ret + ".htm";
 	}
 
+	@RequestMapping("billlist")
+	public String billlist(HttpSession httpSession) {
+		User u = (User) httpSession.getAttribute("user");
+
+		if (u.getBills() != null) {
+			for (Bill i : u.getBills()) {
+				if (i.isPaid()) {
+					return "redirect:/checkout.htm?id=" + i.getId();
+				}
+			}
+		}
+		return "redirect:/index.htm";
+	}
+
 	@RequestMapping(value = "checkout.htm", params = "id")
 	public String checkout(ModelMap model, @PathParam("id") int id, RedirectAttributes re) {
 		Session session = factory.openSession();
@@ -424,7 +438,7 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "profile", method = RequestMethod.GET)
-	public String billlist(ModelMap model, HttpSession httpSession) {
+	public String profile(ModelMap model, HttpSession httpSession) {
 		User u = (User) httpSession.getAttribute("user");
 		model.addAttribute(u);
 		return "profile";
