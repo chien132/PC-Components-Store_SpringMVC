@@ -89,7 +89,7 @@
 													<div class="col-md-4">
 														<div class="form-group">
 															<label class="small mb-1"><h5>Price</h5></label>
-															<form:input type="number" value="1000" min="1000"
+															<form:input type="number" min="1000"
 																path="price" required="required" class="form-control" />
 														</div>
 													</div>
@@ -104,7 +104,7 @@
 														<div class="form-group">
 															<label class="small mb-1"><h5>Quantity</h5></label>
 															<form:input path="quantity" type="number" min="0"
-																value="1" required="required" class="form-control" />
+																required="required" class="form-control" />
 														</div>
 													</div>
 												</div>
